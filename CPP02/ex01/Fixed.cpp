@@ -9,7 +9,7 @@ Fixed::Fixed()
 Fixed::Fixed(const int Num)
 {
 	std::cout << "Int constructor called" << std::endl;
-	fp_Val = Num<<bits;
+	fp_Val = Num<<bits; // Num << left shift is = Num * 2^8, but its faster because binary
 }
 
 Fixed::Fixed(const float Num)
