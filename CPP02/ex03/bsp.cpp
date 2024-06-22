@@ -6,10 +6,7 @@ Fixed	abs(Fixed Area)
 	// So if the num is negative at the end we change whatever inside
 	// we multiply -1 the Num inside, while keeping it in setRawBits
 	if(Area.getRawBits() < 0)
-	{
-		Area.setRawBits(Area.getRawBits() * -1);
-		return Area;
-	}
+		return Area.operator*(-1);
 	return Area;
 }
 
@@ -47,9 +44,6 @@ bool bsp( Point const a, Point const b, Point const c, Point const point)
 	
 	std::cout << "Big Area = " << bigArea.toFloat() << std::endl;
 	std::cout << "Sum = " << Sum.toFloat() << std::endl;
-	
-	if(Sum != bigArea)
-		return false;
 
-	return true;
+	return Sum == bigArea;
 }

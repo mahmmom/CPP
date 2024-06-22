@@ -17,7 +17,6 @@ class Fixed {
 	void setRawBits(int const raw); // sets the raw value of the fixed-point number.
 	float toFloat( void ) const; // converts the fixed-point value to a floating-point value.
 	int toInt( void ) const; // converts the fixed-point value to an integer value.
-	double ToFixed();
 
 	private:
 	int fp_Val;
