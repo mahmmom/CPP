@@ -9,4 +9,5 @@ int main()
 	B.attack("Luda");
 	B.takeDamage(5);
 	B.beRepaired(2);
+	B.guardGate();
 }
