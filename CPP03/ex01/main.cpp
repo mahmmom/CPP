@@ -1,15 +1,12 @@
 #include "ScavTrap.hpp"
 
-
-
 int main()
 {
-	ClapTrap XYZ("Mohamed");
-	
-	XYZ.attack("WOOF");
+	ScavTrap A("Mohamed");
+	ScavTrap B;
+	B = A;
 
-	ScavTrap ABC("Nour");
-
-	ABC.attack("BOOM");
-
+	B.attack("Luda");
+	B.takeDamage(5);
+	B.beRepaired(2);
 }

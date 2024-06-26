@@ -1,8 +1,5 @@
 #include "ClapTrap.hpp"
 
-
-
-
 int main()
 {
 	ClapTrap A("Mohamed");
