@@ -1,41 +1,46 @@
 #include "DiamondTrap.hpp"
 
-DiamondTrap::DiamondTrap() : ClapTrap(), FragTrap(), ScavTrap() 
+DiamondTrap::DiamondTrap() : ClapTrap(), FragTrap(), ScavTrap()
 {
-	std::cout << "DiamondTrap default constructor called!" << std::endl;
+    std::cout << "DiamondTrap default constructor called!" << std::endl;
 }
 
-DiamondTrap::DiamondTrap(std::string DiamondTrap) :  FragTrap(DiamondTrap), ScavTrap(DiamondTrap), name(DiamondTrap)
+DiamondTrap::DiamondTrap(std::string name) : ClapTrap(name + "_clap_name"), FragTrap(name), ScavTrap(name), name(name)
 {
-	std::cout << "DiamondTrap name constructor called!" << std::endl;
-	ClapTrap::name = (DiamondTrap + "_clap_name");
-	HitPoints = 100;
-	EnergyPoints = 50;
-	AttackDamage = 30;
+    std::cout << "DiamondTrap name constructor called!" << std::endl;
+    hitPoints = FragTrap::hitPoints;
+    energyPoints = ScavTrap::energyPoints;
+    attackDamage = FragTrap::attackDamage;
 }
 
 DiamondTrap::~DiamondTrap()
 {
-	std::cout << "DiamondTrap destructor is called!" << std::endl;
+    std::cout << "DiamondTrap destructor called!" << std::endl;
 }
+
 DiamondTrap::DiamondTrap(const DiamondTrap& other) : ClapTrap(other), FragTrap(other), ScavTrap(other)
-{	
-	std::cout << "DiamondTrap copy constructor is called!" << std::endl;
-	*this = other;
-}
-DiamondTrap& DiamondTrap::operator=(const DiamondTrap& rhs)
 {
-	std::cout << "DiamondTrap copy constructor is called!" << std::endl;
-	if (this != &rhs)
-	{
-		this->_hitPoints = rhs._hitPoints;
-		this->_attackDamage = rhs._attackDamage;
-		this->_energyPoints = rhs._energyPoints;
-		this->name = rhs.name;
-	}
-	return (*this);
+    std::cout << "DiamondTrap copy constructor called!" << std::endl;
+    *this = other;
 }
+
+DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
+    std::cout << "DiamondTrap copy assignment operator called!" << std::endl;
+    if (this != &other) {
+        ClapTrap::operator=(other);
+        FragTrap::operator=(other);
+        ScavTrap::operator=(other);
+        name = other.name;
+    }
+    return *this;
+}
+
+void DiamondTrap::attack(const std::string& target)
+{
+    std::cout << "DiamondTrap " << name << " attacks " << target << ", causing " << attackDamage << " points of damage!" << std::endl;
+}
+
 void DiamondTrap::whoAmI()
 {
-	std::cout << "My name is " << this->name << " my ClapTrap name is " << ClapTrap::_name << "." << std::endl;
+    std::cout << "My name is " << name << " and my ClapTrap name is " << ClapTrap::name << "." << std::endl;
 }

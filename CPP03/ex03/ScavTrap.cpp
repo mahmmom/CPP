@@ -3,17 +3,17 @@
 ScavTrap::ScavTrap() : ClapTrap()
 {
 	this->name = "ScavTrap";
-	this->HitPoints = 100;
-	this->EnergyPoints = 50;
-	this->AttackDamage = 20;
+	this->hitPoints = 100;
+	this->energyPoints = 50;
+	this->attackDamage = 20;
 	std::cout << "ScavTrap default constructor called" << std::endl;
 }
 
 ScavTrap::ScavTrap(std::string scav) : ClapTrap(scav)
 {
-	this->HitPoints = 100;
-	this->EnergyPoints = 50;
-	this->AttackDamage = 20;
+	this->hitPoints = 100;
+	this->energyPoints = 50;
+	this->attackDamage = 20;
 	std::cout << "FragTrap naming constructor called" << std::endl;
 }
 
@@ -47,11 +47,11 @@ void ScavTrap::guardGate()
 
 void	ScavTrap::attack(const std::string& target)
 {
-	if(HitPoints > 0 && EnergyPoints > 0)
+	if(hitPoints > 0 && energyPoints > 0)
 	{
-		EnergyPoints--;
-		std::cout << "ScavTrap " << name << " attacks " << target << " ,causing " << AttackDamage << " points of damage!" << std::endl;
-		std::cout << "ScavTrap " << name << " remaining Energy Points =  " << EnergyPoints << std::endl;
+		energyPoints--;
+		std::cout << "ScavTrap " << name << " attacks " << target << " ,causing " << attackDamage << " points of damage!" << std::endl;
+		std::cout << "ScavTrap " << name << " remaining Energy Points =  " << energyPoints << std::endl;
 	}
 	else
 		std::cout << "ScavTrap" << name << " has no energy or hit points left to attack!" << std::endl;

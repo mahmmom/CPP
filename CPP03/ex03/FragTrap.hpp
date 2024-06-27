@@ -3,20 +3,18 @@
 
 #include "ClapTrap.hpp"
 
-class	FragTrap : public ClapTrap
+class	FragTrap : virtual public ClapTrap
 {
 	public:
 		FragTrap();
-		FragTrap(std::string Frag);
 		FragTrap(const FragTrap& other);
 		FragTrap& operator=(const FragTrap& other);
 		~FragTrap();
+		FragTrap(std::string Frag);
 		void highFivesGuys(void);
 		
 	private:
 };
-
-
 
 
 #endif

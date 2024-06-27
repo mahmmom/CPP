@@ -11,7 +11,7 @@ class ClapTrap {
 		ClapTrap(std::string str);
 		ClapTrap(const ClapTrap& other);
 		ClapTrap& operator=(const ClapTrap& other);
-		~ClapTrap();
+		virtual ~ClapTrap();
 
 		void attack(const std::string& target);
 		void takeDamage(unsigned int amount);
@@ -19,9 +19,9 @@ class ClapTrap {
 
 	protected:
 		std::string name;
-		int HitPoints;
-		int	EnergyPoints;
-		int AttackDamage;
+		int hitPoints;
+		int	energyPoints;
+		int attackDamage;
 };
 
 #endif
