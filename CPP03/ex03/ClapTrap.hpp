@@ -18,10 +18,10 @@ class ClapTrap {
 		void beRepaired(unsigned int amount);
 
 	protected:
-		std::string name;
-		int hitPoints;
-		int	energyPoints;
-		int attackDamage;
+		std::string		name;
+		unsigned int	hitPoints;
+		unsigned int	energyPoints;
+		unsigned int	attackDamage;
 };
 
 #endif
