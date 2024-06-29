@@ -8,7 +8,8 @@ int main()
 	B = A;
 	std::cout << "\033[34mTesting\033[0m" << std::endl;
 	B.attack("Luda");
-	B.takeDamage(9);
+	B.takeDamage(10);
+	B.takeDamage(10);
 	B.beRepaired(1);
 	std::cout << "\033[34mDeconstructing\033[0m" << std::endl;
 }

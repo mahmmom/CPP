@@ -9,6 +9,8 @@ int main()
 	std::cout << "\033[34mTesting\033[0m" << std::endl;
 	B.attack("Luda");
 	B.takeDamage(5);
+	ScavTrap C = B;
+	
 	B.beRepaired(2);
 	B.guardGate();
 	std::cout << "\033[34mDeconstructing\033[0m" << std::endl;

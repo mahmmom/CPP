@@ -3,17 +3,13 @@
 ScavTrap::ScavTrap() : ClapTrap()
 {
 	this->name = "ScavTrap";
-	this->hitPoints = 100;
 	this->energyPoints = 50;
-	this->attackDamage = 20;
 	std::cout << "ScavTrap default constructor called" << std::endl;
 }
 
 ScavTrap::ScavTrap(std::string scav) : ClapTrap(scav)
 {
-	this->hitPoints = 100;
 	this->energyPoints = 50;
-	this->attackDamage = 20;
 	std::cout << "ScavTrap naming constructor called" << std::endl;
 }
 
@@ -28,9 +24,7 @@ ScavTrap&	ScavTrap::operator=(const ScavTrap& other)
 	std::cout << "ScavTrap copy assignment operator called" << std::endl;
 	if(this != &other)
 	{
-		ClapTrap::operator=(other); // Assign base class part
-		// We have to call the Copy assignment operator of Father Class, then any other attributes of Child class
-        // Assign other members specific to ScavTrap if any
+		ClapTrap::operator=(other);
 	}
 	return *this;
 }

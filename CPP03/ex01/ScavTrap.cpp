@@ -14,7 +14,7 @@ ScavTrap::ScavTrap(std::string scav) : ClapTrap(scav)
 	this->hitPoints = 100;
 	this->energyPoints = 50;
 	this->attackDamage = 20;
-	std::cout << "ScavTrap default constructor called" << std::endl;
+	std::cout << "ScavTrap naming constructor called" << std::endl;
 }
 
 ScavTrap::ScavTrap(const ScavTrap& other) : ClapTrap(other)
