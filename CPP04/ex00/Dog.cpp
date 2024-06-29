@@ -1,39 +1,38 @@
 #include "Dog.hpp"
 
-
-Dog::Dog(): _type("Dog")
+Dog::Dog() : Animal()
 {
-	std::cout << "Dog Default Constructor called" << std::endl;
+	this->_type = "Dog";
+	std::cout << "Dog default constructor called" << std::endl;
 }
 
-
-Dog::Dog(Dog const &object): Animal::Animal(object)
+Dog::Dog(Dog const &other) : Animal(other)
 {
-	std::cout << "Dog Copy Constructor called" << std::endl;
-	*this = object;
+	std::cout << "Dog copy constructor called" << std::endl;
+	*this = other;
 }
 
-Dog & Dog::operator=(Dog const &rhs)
+Dog & Dog::operator=(Dog const &other)
 {
-	std::cout << "Dog Copy Assignment Operator called" << std::endl;
-	if (this != &rhs)
-		this->_type = rhs._type;
-	return (*this);
+	std::cout << "Dog copy assignment operator called" << std::endl;
+	if (this != &other)
+	{
+		this->_type = other._type;
+	}
+	return *this;
 }
 
 Dog::~Dog()
 {
-	std::cout << "Dog Destructor called" << std::endl;
+	std::cout << "Dog destructor called" << std::endl;
 }
 
 void	Dog::makeSound() const
 {
-	std::cout << "Dog::makeSound() called" << std::endl;
-	std::cout << "Dog makes sound ... Bark" << std::endl;
+	std::cout << _type <<" say Woof Woof Woof" << std::endl;
 }
 
 std::string	Dog::getType() const
 {
-	std::cout << "Dog::getType() called" << std::endl;
-	return (this->_type);
+	return _type;
 }

@@ -5,9 +5,6 @@
 
 class Dog: public Animal
 {
-	protected:
-		std::string _type;
-	
 	public:
 		Dog();
 		Dog(Dog const &object);
@@ -16,6 +13,8 @@ class Dog: public Animal
 
 		void	makeSound() const;
 		std::string	getType() const;
+
+	private:
 };
 
 #endif
