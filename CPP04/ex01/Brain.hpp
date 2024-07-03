@@ -14,10 +14,10 @@ class Brain
         ~Brain();
         std::string getIdea(int pos) const;
         void    setIdea(int pos, const std::string& newIdea);
+		
     
-    protected:
+    private:
         std::string ideas[100];
-
 
 };
 

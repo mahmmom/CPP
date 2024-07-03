@@ -3,42 +3,39 @@
 
 int main()
 {
-    const Animal* animals[4];
+    // const Animal* animals[4];
+    // for (int i = 0; i < 2; ++i)
+	// {
+	// 	animals[i] = new Dog();
+	// }
 
-    // Create an array of Animal objects (2 Dogs and 2 Cats)
-    for (int i = 0; i < 2; ++i)
-    {
-        animals[i] = new Dog();
-    }
+    // for (int i = 2; i < 4; ++i)
+    // {
+	// 	animals[i] = new Cat();
+	// }
 
-    for (int i = 2; i < 4; ++i)
-    {
-        animals[i] = new Cat();
-    }
+    // for (int i = 0; i < 4; ++i)
+    // {
+    //     std::cout << animals[i]->getType() << " says: ";
+    //     animals[i]->makeSound();
+    // }
 
-    // Display types and sounds
-    for (int i = 0; i < 4; ++i)
-    {
-        std::cout << animals[i]->getType() << " says: ";
-        animals[i]->makeSound();
-    }
+    // for (int i = 0; i < 4; ++i)
+    // {
+	// 	delete animals[i];
+	// }
 
-    // Delete the animals and check for proper destructor calls
-    for (int i = 0; i < 4; ++i)
-    {
-        delete animals[i];
-    }
+	Cat jaafar;
 
-    // Test deep copy
-    Dog originalDog;
-    {
-        Dog copiedDog = originalDog; // Calls copy constructor
-    } // copiedDog goes out of scope, destructor is called
+	std::cout << "Before checking Deep copy " <<jaafar.getBrain()->getIdea(5) << std::endl;
 
-    Cat originalCat;
-    {
-        Cat copiedCat = originalCat; // Calls copy constructor
-    } // copiedCat goes out of scope, destructor is called
+	Cat	Abood = jaafar;
+
+	jaafar.getBrain()->setIdea(5, "New Idea here");
+
+	std::cout << "Deep copy check [1] = " << jaafar.getBrain()->getIdea(5) << std::endl;
+
+	std::cout << "Deep copy check [2] = " << Abood.getBrain()->getIdea(5) << std::endl;
 
     return 0;
 }
