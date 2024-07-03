@@ -25,23 +25,5 @@ int main()
 		delete animals[i];
 	}
 
-	int position = 500;
-
-	if(position > 100 || position < 0)
-	{
-		std::cout << "Error, position is out of range" << std::endl;
-		return (1);
-	}
-	
-	Cat Tom;
-
-	Cat	Jerry = Tom;
-
-	Tom.getBrain()->setIdea(5, "New Idea here");
-
-	std::cout << "Deep copy check [1] = " << Tom.getBrain()->getIdea(position) << std::endl;
-
-	std::cout << "Deep copy check [2] = " << Jerry.getBrain()->getIdea(position) << std::endl;
-
     return 0;
 }
