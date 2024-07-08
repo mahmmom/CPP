@@ -11,7 +11,7 @@ int main()
         b1.gradeUp();
         std::cout << b1 << std::endl;
 
-        b1.gradeUp(); // Should throw GradeTooHighException
+        b1.gradeUp();
     }
     catch (std::exception& e)
     {
@@ -27,7 +27,7 @@ int main()
         b2.gradeDown();
         std::cout << b2 << std::endl;
 
-        b2.gradeDown(); // Should throw GradeTooLowException
+        b2.gradeDown();
     }
     catch (std::exception& e)
     {
