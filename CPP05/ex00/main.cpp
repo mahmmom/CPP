@@ -4,33 +4,41 @@ int main()
 {
     try
     {
+		std::cout << "\033[34mConstructing\033[0m" << std::endl;
         std:: string name1 = "Mohamed";
-        Bureaucrat b1(name1, 2);
-        std::cout << b1 << std::endl;
+        Bureaucrat b1(name1, 3);
 
-        b1.gradeUp();
+        std::cout << "\033[34mTesting\033[0m" << std::endl;
         std::cout << b1 << std::endl;
-
+		b1.gradeUp();
+        std::cout << b1 << std::endl;
         b1.gradeUp();
+		std::cout << "This line will be printed if grade > 2" << std::endl;
+		std::cout << "\033[34mDeconstructing\033[0m" << std::endl;
     }
     catch (std::exception& e)
     {
+		std::cout << "\033[34mException\033[0m" << std::endl;
         std::cout << "Exception: " << e.what() << std::endl;
     }
 
     try
     {
-        std:: string name2 = "Adil";
-        Bureaucrat b2(name2, 150);
-        std::cout << b2 << std::endl;
+		std::cout << "\033[34mConstructing\033[0m" << std::endl;
+        std:: string name1 = "Mohamed";
+        Bureaucrat b1(name1, 148);
 
-        b2.gradeDown();
-        std::cout << b2 << std::endl;
-
-        b2.gradeDown();
+        std::cout << "\033[34mTesting\033[0m" << std::endl;
+        std::cout << b1 << std::endl;
+		b1.gradeDown();
+        std::cout << b1 << std::endl;
+        b1.gradeDown();
+		std::cout << "This line will be printed if grade < 149" << std::endl;
+		std::cout << "\033[34mDeconstructing\033[0m" << std::endl;
     }
     catch (std::exception& e)
     {
+		std::cout << "\033[34mException\033[0m" << std::endl;
         std::cout << "Exception: " << e.what() << std::endl;
     }
 
