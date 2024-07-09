@@ -6,7 +6,7 @@ int main()
     {
 		std::cout << "\033[34mConstructing\033[0m" << std::endl;
         std:: string name1 = "Mohamed";
-        Bureaucrat b1(name1, 3);
+        Bureaucrat b1(name1, 2);
 
         std::cout << "\033[34mTesting\033[0m" << std::endl;
         std::cout << b1 << std::endl;
@@ -19,7 +19,7 @@ int main()
     catch (std::exception& e)
     {
 		std::cout << "\033[34mException\033[0m" << std::endl;
-        std::cout << "Exception: " << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
     }
 
     try
@@ -39,7 +39,7 @@ int main()
     catch (std::exception& e)
     {
 		std::cout << "\033[34mException\033[0m" << std::endl;
-        std::cout << "Exception: " << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
     }
 
     return 0;
