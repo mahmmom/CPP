@@ -1,51 +1,45 @@
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
 #include "ShrubberyCreationForm.hpp"
-
-// int main()
-// {
-//     try
-//     {
-// 		std::cout << "\033[34mConstructing\033[0m" << std::endl;
-//         std:: string name1 = "Mohamed";
-//         std:: string name2 = "Nour";
-//         Bureaucrat b1(name1, 6);
-//         Bureaucrat b2(name2, 140);
-// 		Form f1("Form A", 5, 10);
-// 		Form f2("Form B",145, 100);
-
-//         std::cout << "\033[34mTesting\033[0m" << std::endl;
-// 		std::cout << b1 << std::endl;
-// 		std::cout << f1 << std::endl;
-// 		b1.signForm(f1);
-// 		b2.signForm(f2);
-// 		std::cout << "\033[34mDeconstructing\033[0m" << std::endl;
-//     }
-//     catch (std::exception& e)
-//     {
-// 		std::cout << "\033[34mException\033[0m" << std::endl;
-//         std::cout << e.what() << std::endl;
-//     }
-
-//     return 0;
-// }
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 
 int main()
 {
 	{
 		try
 		{
-			/* code */
+			std::cout << "\033[34mConstructing\033[0m" << std::endl;
+			std::string name1 = "Mohamed";
+			Bureaucrat B1(name1, 1);
+			ShrubberyCreationForm A1("target");
+			std::cout << "\033[34mTesting\033[0m" << std::endl;
+			B1.signForm(A1);
+			B1.executeForm(A1);
+			std::cout <<"==========================================" << std::endl;
+			std::cout << "\033[34mConstructing\033[0m" << std::endl;
+			std::string name2 = "Mohamed";
+			Bureaucrat B2(name2, 3);
+			RobotomyRequestForm A2("target");
+			std::cout << "\033[34mTesting\033[0m" << std::endl;
+			B2.signForm(A2);
+			B2.executeForm(A2);
+			B2.executeForm(A2);
+			B2.executeForm(A2);
+			B2.executeForm(A2);
+			std::cout <<"==========================================" << std::endl;
+			std::cout << "\033[34mConstructing\033[0m" << std::endl;
+			std::string name3 = "Mohamed";
+			Bureaucrat B3(name3, 5);
+			PresidentialPardonForm A3("target");
+			std::cout << "\033[34mTesting\033[0m" << std::endl;
+			B3.signForm(A3);
+			B3.executeForm(A3);
+			std::cout << "\033[34mDeconstructing\033[0m" << std::endl;
 		}
-		catch(AForm::GradeTooLowException &e)
+		catch(std::exception& e)
 		{
-			std::cerr << e.what() << '\n';
+			std::cerr << e.what() << std::endl;
 		}
-		
-		std::string name = "Mohamed";
-		Bureaucrat B(name, 151);
-		ShrubberyCreationForm A("target");
-		B.signForm(A);
-		B.executeForm(A);
 	}
 }
