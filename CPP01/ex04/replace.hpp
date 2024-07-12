@@ -10,7 +10,7 @@
 class Replace {
 	public:
 		Replace(const char* inputFile, const char* outputFile,
-			std::string string1, std::string string2);
+		std::string string1, std::string string2);
 		~Replace();
 		void	setupFile();
 		void	replaceFile(std::ifstream& inputFile, std::string line, 

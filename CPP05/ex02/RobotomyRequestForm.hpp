@@ -14,6 +14,12 @@ public:
 	RobotomyRequestForm& operator=(const RobotomyRequestForm& other);
 	~RobotomyRequestForm();
 	void execute(Bureaucrat const & executor) const;
+
+	class CantExecuteException : public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
 };
 
 

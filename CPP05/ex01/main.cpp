@@ -8,7 +8,7 @@ int main()
         std:: string name1 = "Mohamed";
         std:: string name2 = "Nour";
         Bureaucrat b1(name1, 3);
-        Bureaucrat b2(name2, 146);
+        Bureaucrat b2(name2, 1);
 		Form f1("Form A", 5, 10);
 		Form f2("Form B",145, 100);
 

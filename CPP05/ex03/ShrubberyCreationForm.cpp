@@ -93,7 +93,10 @@ void ShrubberyCreationForm::execute(Bureaucrat const & executor) const
 		outfile.close();
 	}
 	else
-	{
-		throw GradeTooLowException();
-	}
+		throw CantExecuteException();
+}
+
+const char* ShrubberyCreationForm::CantExecuteException::what() const throw()
+{
+	return "Can't execute: Grade is too low!";
 }

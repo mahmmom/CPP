@@ -62,21 +62,22 @@ int Form::getExecuteGrade() const
 void Form::beSigned(Bureaucrat& b1)
 {
 	if (b1.getGrade() <= _signGrade)
-	{
 		_ifSigned = true;
-	}
 	else
-	{
-		throw Form::GradeTooLowException();
-	}
+		throw Form::CantSignException();
 }
 
 const char* Form::GradeTooHighException::what() const throw()
 {
-	return "Can't sign: Grade is too high!";
+	return "Grade is too high!";
 }
 
 const char* Form::GradeTooLowException::what() const throw()
+{
+	return "Grade is too low!";
+}
+
+const char* Form::CantSignException::what() const throw()
 {
 	return "Can't sign: Grade is too low!";
 }

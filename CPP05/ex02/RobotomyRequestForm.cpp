@@ -49,6 +49,11 @@ void RobotomyRequestForm::execute(Bureaucrat const & executor) const
 	}
 	else
 	{
-		throw GradeTooLowException();
+		throw CantExecuteException();
 	}
+}
+
+const char* RobotomyRequestForm::CantExecuteException::what() const throw()
+{
+	return "Can't execute: Grade is too low!";
 }

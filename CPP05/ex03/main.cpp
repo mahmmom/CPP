@@ -14,11 +14,10 @@ int main()
 		try
 		{
 			std::string name1 = "Mohamed";
-			Bureaucrat B1(name1, 150);
+			Bureaucrat B1(name1, 15);
 			rrf = someRandomIntern.makeForm("presidential pardon", "Tiger");
 			std::cout << "\033[34mTesting\033[0m" << std::endl;
 			B1.signForm(*rrf);
-			std::cout << "should not be printed" << std::endl;
 			B1.executeForm(*rrf);
 			B1.executeForm(*rrf);
 			std::cout << "\033[34mDeconstructing\033[0m" << std::endl;
@@ -26,7 +25,7 @@ int main()
 		catch(std::exception& e)
 		{
 			std::cerr << "\033[34mException\033[0m" << std::endl;
-			std::cerr << "Execption caught: "<< e.what() << std::endl;
+			std::cerr << e.what() << std::endl;
 		}
 		delete rrf;
 	}

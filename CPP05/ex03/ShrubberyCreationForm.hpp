@@ -22,6 +22,12 @@ class ShrubberyCreationForm : public AForm
 			public:
 				const char* what() const throw();
 		};
+
+		class CantExecuteException : public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
 };
 
 

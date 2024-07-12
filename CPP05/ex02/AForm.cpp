@@ -65,7 +65,7 @@ void AForm::beSigned(Bureaucrat& b1)
 	if (b1.getGrade() <= _signGrade)
 		_ifSigned = true;
 	else
-		throw AForm::GradeTooLowException();
+		throw AForm::CantSignException();
 }
 
 const char* AForm::GradeTooHighException::what() const throw()
@@ -76,6 +76,11 @@ const char* AForm::GradeTooHighException::what() const throw()
 const char* AForm::GradeTooLowException::what() const throw()
 {
 	return "Grade is too low!";
+}
+
+const char* AForm::CantSignException::what() const throw()
+{
+	return "Can't sign: Grade is too low!";
 }
 
 std::ostream& operator<<(std::ostream& outputStream, const AForm& other)
