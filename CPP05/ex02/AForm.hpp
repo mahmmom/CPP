@@ -27,7 +27,6 @@ class AForm
 		void beSigned(Bureaucrat& b1) ;
 		int getExecuteGrade() const;
 		int getSignGrade() const;
-		void setSigned(bool sign);
 
 		virtual void execute(Bureaucrat const & executor) const = 0;
 		

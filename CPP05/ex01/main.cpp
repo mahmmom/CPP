@@ -7,8 +7,8 @@ int main()
 		std::cout << "\033[34mConstructing\033[0m" << std::endl;
         std:: string name1 = "Mohamed";
         std:: string name2 = "Nour";
-        Bureaucrat b1(name1, 6);
-        Bureaucrat b2(name2, 140);
+        Bureaucrat b1(name1, 3);
+        Bureaucrat b2(name2, 146);
 		Form f1("Form A", 5, 10);
 		Form f2("Form B",145, 100);
 

@@ -2,7 +2,7 @@
 #define SHRUBBERYCREATIONFORM_HPP
 
 #include "AForm.hpp"
-#include <fstream>
+
 
 class ShrubberyCreationForm : public AForm
 {
@@ -16,6 +16,12 @@ class ShrubberyCreationForm : public AForm
 		virtual ~ShrubberyCreationForm();
 		void beSigned(Bureaucrat& b1);
 		void execute(Bureaucrat const & executor) const;
+
+		class InvalidFileException : public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
 };
 
 

@@ -1,6 +1,6 @@
 #include "ShrubberyCreationForm.hpp"
 #include "Bureaucrat.hpp"
-
+#include <fstream>
 
 ShrubberyCreationForm::ShrubberyCreationForm() : AForm("Default", 145, 137)
 {
@@ -36,6 +36,10 @@ ShrubberyCreationForm::~ShrubberyCreationForm()
 	std::cout << "Shrubbery destructor called" << std::endl;
 }
 
+const char* ShrubberyCreationForm::InvalidFileException::what() const throw()
+{
+	return "Invalid File!";
+}
 
 void ShrubberyCreationForm::execute(Bureaucrat const & executor) const
 {
@@ -81,11 +85,10 @@ void ShrubberyCreationForm::execute(Bureaucrat const & executor) const
 
 		std::string fName = (_target + "_shrubbery");
 		std::ofstream outfile(fName.c_str());
-	// 	if (!outfile)
-	// 	{
-    //     	throw std::cerr << "Error: Could not create or open file " << fName << std::endl;
-    //     return;
-    // }
+		if (!outfile)
+		{
+        	throw InvalidFileException();
+		}
 		outfile << tree;
 		outfile.close();
 	}

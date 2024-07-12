@@ -11,7 +11,7 @@ int main()
 		{
 			std::cout << "\033[34mConstructing\033[0m" << std::endl;
 			std::string name1 = "Mohamed";
-			Bureaucrat B1(name1, 1);
+			Bureaucrat B1(name1, 151);
 			ShrubberyCreationForm A1("target");
 			std::cout << "\033[34mTesting\033[0m" << std::endl;
 			B1.signForm(A1);
@@ -39,7 +39,8 @@ int main()
 		}
 		catch(std::exception& e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << "\033[34mException\033[0m" << std::endl;
+			std::cerr << " couldn't execute because " << e.what() << std::endl;
 		}
 	}
 }
