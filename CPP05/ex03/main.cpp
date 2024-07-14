@@ -14,8 +14,8 @@ int main()
 		try
 		{
 			std::string name1 = "Mohamed";
-			Bureaucrat B1(name1, 15);
-			rrf = someRandomIntern.makeForm("presidential pardon", "Tiger");
+			Bureaucrat B1(name1, 1);
+			rrf = someRandomIntern.makeForm("presidential PARDON", "Tiger");
 			std::cout << "\033[34mTesting\033[0m" << std::endl;
 			B1.signForm(*rrf);
 			B1.executeForm(*rrf);

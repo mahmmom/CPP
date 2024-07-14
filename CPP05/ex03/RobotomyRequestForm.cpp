@@ -42,9 +42,9 @@ void RobotomyRequestForm::execute(Bureaucrat const & executor) const
 	{
 		static long long tracker;
 		if(tracker % 2 == 0)
-			std::cout << _target << " has been robotomized." << std::endl;
+			std::cout << _target << " has been robotomized" << std::endl;
 		else
-			std::cout << _target << " robotomy failed." << std::endl;
+			std::cout << _target << " robotomy failed" << std::endl;
 		tracker++;
 	}
 	else
