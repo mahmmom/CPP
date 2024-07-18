@@ -142,8 +142,8 @@ void	ScalarConverter::convertInt(const std::string type)
     const char* str = type.c_str();
     double value = strtod(str, &end);
 
-	if(value < INT_MIN || value > INT_MAX)
-		throw RangeError();
+	// if(value < INT_MIN || value > INT_MAX)
+	// 	throw RangeError();
 	std::cout << std::fixed << std::setprecision(1);
 	std::cout << "The data type is: Int" << std::endl;
 	if (value >= 0 && value <= 255 && isprint(static_cast<int>(value)))
@@ -167,12 +167,12 @@ void	ScalarConverter::convertFloat(const std::string type)
 	std::cout << "The data type is: float" << std::endl;
 
 	std::cout << "char: impossible" << std::endl;
-	if(static_cast<int>(value) >= INT_MIN && static_cast<int>(value) <=INT_MAX)
+	if (value >= INT_MIN && value <=INT_MAX)
 		std::cout << "int: " << static_cast<int>(value) << std::endl;
 	else
 		std::cout << "int: impossible" << std::endl;
-    std::cout << "float: " << static_cast<float>(value) << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(value) << std::endl;
+    std::cout << "float: " << value << "f" << std::endl;
+    std::cout << "double: " << value << std::endl;
 }
 
 void	ScalarConverter::convertDouble(const std::string type)
@@ -187,7 +187,7 @@ void	ScalarConverter::convertDouble(const std::string type)
 	std::cout << "The data type is: Double" << std::endl;
 	std::cout << "char: impossible" << std::endl;
 
-	if(static_cast<int>(value) >= INT_MIN && static_cast<int>(value) <=INT_MAX)
+	if(value >= INT_MIN && value <=INT_MAX)
 		std::cout << "int: " << static_cast<int>(value) << std::endl;
 	else
 		std::cout << "int: impossible" << std::endl;
