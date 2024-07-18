@@ -7,6 +7,7 @@
 #include <cctype>
 #include <climits>
 #include <cerrno>
+#include <iomanip>
 
 class ScalarConverter
 {
@@ -15,10 +16,14 @@ class ScalarConverter
 		ScalarConverter(const ScalarConverter& other);
 		ScalarConverter& operator=(const ScalarConverter& other);
 		~ScalarConverter();
-		static int	findType(std::string type);
+		static int	findType(const std::string type);
+		static void	convertChar(const std::string& type);
+		static void	convertInt(const std::string type);
+		static void	convertFloat(const std::string type);
+		static void	convertDouble(const std::string type);
 	
 	public:
-		static void convert(std::string type);
+		static void convert(const std::string type);
 
 	class RangeError : public std::exception
 	{
