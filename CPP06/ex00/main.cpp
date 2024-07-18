@@ -1,10 +1,17 @@
 #include "ScalarConverter.hpp"
 
 
+
+
+
+
+
+
+
 int main(int ac, char** av)
 {
-	if(ac!= 2)
-		std::cerr << "Invalid Arguemnt, Enter ./convert <string>" << std::endl;
+	if(ac != 2)
+		return(std::cerr << "Invalid Arguemnt, Enter ./convert <string>" << std::endl, 1);
 	try
 	{
 		ScalarConverter::convert(av[1]);
@@ -14,8 +21,6 @@ int main(int ac, char** av)
 		std::cerr << e.what() << std::endl;
 	}
 }
-
-
 
 
 // int main() {
