@@ -1,6 +1,6 @@
-NAME = reinterpret
+NAME = identify
 
-SRCS = main.cpp Serializer.cpp
+SRCS = main.cpp Base.cpp Identify.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
