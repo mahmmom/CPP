@@ -1,6 +1,9 @@
 #include "ScalarConverter.hpp"
-#include <cctype>
-#include <climits>
+#include <cstring>
+
+/*
+====================================== Constructors & Destructor =======================================
+*/
 
 ScalarConverter::ScalarConverter()
 {
@@ -25,69 +28,58 @@ ScalarConverter::~ScalarConverter()
 	std::cout << "ScalarConverter destructor called" << std::endl;
 }
 
-// int ScalarConverter::findType(std::string type)
-// {
-//     char* end;
-// 	const char* str = type.c_str();
-    
-//     double value = strtod(str, &end);
-    
-// 	if (type.size() == 1)
-// 	{
-// 		if(isprint(type[0]) && !isdigit(type[0]))
-// 		{
-// 			std::cout << "char from size(1)" << std::endl;
-// 			return 0;
-// 		}
-// 		else if (isdigit(type[0]))
-// 		{
-// 			std::cout << "digit from  size(1)" << std::endl; 
-// 			return 1;
-// 		}
-// 	}
-// 	else if ((value > INT_MIN && value < INT_MAX) && type.find('.') == type.npos && !end)
-// 	{
-// 		if (end == str)
-// 			throw EmptyError();
-// 		if (errno == ERANGE)
-// 			throw RangeError();
-// 		std::cout << "digit from normal int" << std::endl; 
-// 		return 1;
-// 	}
-// 	else if(type.find('.') != type.npos && end[1] == '\0')
-// 	{
-// 		if (end == str)
-// 			throw EmptyError();
-// 		if (errno == ERANGE)
-// 			throw RangeError();
-// 		if(end[0] == 'f')
-// 		{
-// 			std::cout << "float" << std::endl;
-// 			return 2;
-// 		}
-// 		else
-// 		{
-// 			std::cout << "Double" << std::endl;
-// 			return 3;
-// 		}
-// 	}
-// 	else
-// 		throw InvalidError();
-// 	// {
-//     //     std::cout << "Converted value: " << value << std::endl;
-//     //     std::cout << "Remaining string: " << end << std::endl;
-//     // }
-// 	// std::cout << std::fixed << std::setprecision(1) << std::endl;
-// 	// this is important in fixing if 10.0 is put, as it sets the precision,
-// 	// so no need to hardcode the .0 everytime,
-// 	return 0;
-// }
+int ScalarConverter::characterCount(const std::string& str, char ch)
+{
+    int count = 0;
+    for (size_t i = 0; i < str.size(); ++i)
+	{
+        if (str[i] == ch)
+            ++count;
+    }
+    return count;
+}
 
-// bool isValidFloatString(const std::string& str) {
-//     std::size_t firstF = str.find('f');
-//     std::size_t lastF = str.rfind('f');
-//     return (firstF != std::string::npos && firstF == lastF && firstF == str.length() - 1);
-// }
+/*
+====================================== Type Checker =======================================
+*/
+
+int	ScalarConverter::ifChar(std::string type)
+{
+	if(type.size() != 1)
+		return ERROR;
+	if(isprint(type[0]) && !isdigit(type[0]))
+		return CHAR;
+	else if (isdigit(type[0]))
+		return INT;
+	return ERROR;
+}
+
+int	ScalarConverter::ifInt(std::string type, double value, const char* end)
+{
+	if((value >= INT_MIN && value <= INT_MAX) && type.find('.') == std::string::npos && *end == '\0')
+		return INT;
+	return ERROR;
+}
+
+int	ScalarConverter::ifFloatDouble(std::string type, const char* end)
+{
+	if(type.find('.') == std::string::npos || characterCount(type, '.') != 1)
+		return ERROR;
+	if (end[0] == 'f' && strlen(end) == 1)
+		return FLOAT;
+	else if (end[0] == 'f' && strlen(end) != 1)
+		return ERROR;
+	return DOUBLE;
+}
+
+int	ScalarConverter::ifLiteral(std::string type)
+{
+	if (type == "-inff" || type == "+inff" || type == "inff" || type == "nanf")
+		return FLITERAL;
+	else if (type == "-inf" || type == "+inf" || type == "inf" || type == "nan")
+		return DLITERAL;
+	return ERROR;
+}
 
 int ScalarConverter::findType(const std::string type)
 {
@@ -95,43 +87,34 @@ int ScalarConverter::findType(const std::string type)
     const char* str = type.c_str();
     errno = 0;
     double value = strtod(str, &end);
-	if (type.size() == 1)
-	{
-		if (isprint(type[0]) && !isdigit(type[0]))
-            return 0; // char
-		else if (isdigit(type[0]))
-            return 1; // int digit
-    }
-	else if ((value >= INT_MIN && value <= INT_MAX) && type.find('.') == std::string::npos && *end == '\0')
-	{
-        // if (errno == ERANGE)
-        //     throw RangeError();
 
-		// Check needed if we want to exit in a cool error message
-
-        return 1; // normal int
-    }
-	else if (value < INT_MIN || value > INT_MAX || (type.find('.') != std::string::npos && (*end == '\0' || (end[0] == 'f' && end[1] == '\0'))))
-	{
-        if (errno == ERANGE)
-            throw RangeError();
-		if (end[0] == 'f')
-            return 2; // float
-		else
-			return 3; // double
-    }
-    return -1;
+	if (errno == ERANGE)
+		throw RangeError();
+	if (type.empty())
+		throw EmptyError();
+	if (ifChar(type)!= ERROR)
+		return (ifChar(type));
+	else if (ifInt(type, value, end) != ERROR)
+        return ifInt(type, value, end);
+	else if (ifFloatDouble(type, end) != ERROR)
+		return ifFloatDouble(type, end);
+	else if (ifLiteral(type) != ERROR)
+		return ifLiteral(type);
+    return ERROR;
 }
+
+/*
+====================================== Type Converter =======================================
+*/
 
 void ScalarConverter::convertChar(const std::string& type)
 {
     char c = type[0];
-
-    std::cout << "The data type is: Char" << std::endl;
-	std::cout << "char: '" << c << "'" << std::endl;
-    std::cout << "int: " << static_cast<int>(c) << std::endl;
-    std::cout << "float: " << static_cast<float>(c) << ".0f" << std::endl;
-    std::cout << "double: " << static_cast<double>(c) << ".0" << std::endl;
+	std::cout << YELLOW << "The data type is: char" << RESET << std::endl;
+	std::cout << GREEN << "char: '" << c << "'" << RESET << std::endl;
+    std::cout << BLUE << "int: " << static_cast<int>(c) << RESET <<  std::endl;
+    std::cout << MAGENTA << "float: " << static_cast<float>(c) << ".0f" << RESET << std::endl;
+    std::cout << RED << "double: " << static_cast<double>(c) << ".0" << RESET << std::endl;
 }
 
 void	ScalarConverter::convertInt(const std::string type)
@@ -140,19 +123,17 @@ void	ScalarConverter::convertInt(const std::string type)
     const char* str = type.c_str();
     double value = strtod(str, &end);
 
-	// if(value < INT_MIN || value > INT_MAX)
-	// 	throw RangeError();
+	std::cout << YELLOW << "The data type is: Int"  << RESET << std::endl;
 	std::cout << std::fixed << std::setprecision(3);
-	std::cout << "The data type is: Int" << std::endl;
 	if (value >= 0 && value <= 255 && isprint(static_cast<int>(value)))
-		std::cout << "char: '" << static_cast<char>(value) << "'" << std::endl;
+		std::cout << GREEN << "char: '" << static_cast<char>(value) << "'" << RESET << std::endl;
 	else if (value >= 0 && value <= 255 && !isprint(static_cast<int>(value)))
-		std::cout << "char: Non displayable" << std::endl;
+		std::cout << GREEN << "char: Non displayable" << RESET << std::endl;
 	else
-		std::cout << "Char: impossible" << std::endl;
-	std::cout << "int: " << static_cast<int>(value) << std::endl;
-    std::cout << "float: " << static_cast<float>(value) << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(value)  << std::endl;
+		std::cout << GREEN << "Char: impossible" << RESET << std::endl;
+	std::cout << BLUE << "int: " << static_cast<int>(value) << RESET << std::endl;
+    std::cout << MAGENTA << "float: " << static_cast<float>(value) << "f" << RESET << std::endl;
+    std::cout << RED << "double: " << static_cast<double>(value)  << RESET << std::endl;
 }
 
 void	ScalarConverter::convertFloat(const std::string type)
@@ -162,15 +143,20 @@ void	ScalarConverter::convertFloat(const std::string type)
     double value = strtod(str, &end);
 	
 	std::cout << std::fixed << std::setprecision(3);
-	std::cout << "The data type is: float" << std::endl;
+	std::cout << YELLOW << "The data type is: float "  << RESET << std::endl;
 
-	std::cout << "char: impossible" << std::endl;
-	if (value >= INT_MIN && value <=INT_MAX)
-		std::cout << "int: " << static_cast<int>(value) << std::endl;
+	if (value >= 0 && value <= 255 && isprint(static_cast<int>(value)))
+		std::cout << GREEN << "char: '" << static_cast<char>(value) << "'" << RESET << std::endl;
+	else if (value >= 0 && value <= 255 && !isprint(static_cast<int>(value)))
+		std::cout << GREEN << "char: Non displayable" << RESET << std::endl;
 	else
-		std::cout << "int: impossible" << std::endl;
-    std::cout << "float: " << static_cast<float>(value) << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(value) << std::endl;
+		std::cout << GREEN << "Char: impossible" << RESET << std::endl;
+	if (value >= INT_MIN && value <=INT_MAX)
+		std::cout << BLUE << "int: " << static_cast<int>(value) << RESET << std::endl;
+	else
+		std::cout << BLUE << "int: impossible" << RESET << std::endl;
+    std::cout << MAGENTA << "float: " << static_cast<float>(value) << "f" << RESET << std::endl;
+    std::cout << RED << "double: " << static_cast<double>(value) << RESET << std::endl;
 }
 
 void	ScalarConverter::convertDouble(const std::string type)
@@ -180,21 +166,44 @@ void	ScalarConverter::convertDouble(const std::string type)
     double value = strtod(str, &end);
 	
 		
-	std::cout << "The data type is: Double" << std::endl;
-	
-	
-	std::cout << "char: impossible" << std::endl;
-
-	std::cout << std::fixed << std::setprecision(3);
-	
-	if(value >= INT_MIN && value <=INT_MAX)
-		std::cout << "int: " << static_cast<int>(value) << std::endl;
+	std::cout << YELLOW << "The data type is: Double" << RESET << std::endl;
+	if (value >= 0 && value <= 255 && isprint(static_cast<int>(value)))
+		std::cout << GREEN << "char: '" << static_cast<char>(value) << "'" << RESET << std::endl;
+	else if (value >= 0 && value <= 255 && !isprint(static_cast<int>(value)))
+		std::cout << GREEN << "char: Non displayable" << RESET << std::endl;
 	else
-		std::cout << "int: impossible" << std::endl;
-
-    std::cout << "float: " << static_cast<float>(value) << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(value) << std::endl;
+		std::cout << GREEN << "Char: impossible" << RESET << std::endl;
+	std::cout << std::fixed << std::setprecision(3);
+	if(value >= INT_MIN && value <=INT_MAX)
+		std::cout << BLUE << "int: " << static_cast<int>(value) << RESET << std::endl;
+	else
+		std::cout << BLUE << "int: impossible" << RESET << std::endl;
+    std::cout << MAGENTA << "float: " << static_cast<float>(value) << "f" << RESET << std::endl;
+    std::cout << RED << "double: " << static_cast<double>(value) << RESET << std::endl;
 }
+
+void ScalarConverter::literalFloat(const std::string type)
+{
+	std::string doubleValue = type.substr(0, type.length() - 1);
+	std::cout << YELLOW << "The data type is: float  literal" << RESET << std::endl;
+	std::cout << GREEN << "char: impossible" << RESET << std::endl;
+	std::cout << BLUE << "int: impossible" << RESET << std::endl;
+	std::cout << MAGENTA << "float: " << type << RESET << std::endl;
+    std::cout << RED << "double: " << doubleValue << RESET << std::endl;
+}
+
+void ScalarConverter::literalDouble(const std::string type)
+{
+	std::cout << YELLOW << "The data type is: double literal" << RESET << std::endl;
+	std::cout << GREEN << "char: impossible" << RESET << std::endl;
+	std::cout << BLUE << "int: impossible" << RESET << std::endl;
+	std::cout << MAGENTA << "float: " << type << "f" << RESET << std::endl;
+    std::cout << RED << "double: " << type  << RESET << std::endl;
+}
+
+/*
+====================================== Public =======================================
+*/
 
 void ScalarConverter::convert(const std::string type)
 {
@@ -202,17 +211,23 @@ void ScalarConverter::convert(const std::string type)
 
     switch (castType)
 	{
-		case 0:
+		case CHAR:
 			convertChar(type);
 			break;
-		case 1:
+		case INT:
 			convertInt(type);
 			break;
-		case 2:
+		case FLOAT:
 			convertFloat(type);
 			break;
-		case 3:
+		case DOUBLE:
 			convertDouble(type);
+			break;
+		case FLITERAL:
+			literalFloat(type);
+			break;
+		case DLITERAL:
+			literalDouble(type);
 			break;
 		default:
 			throw InvalidError();
