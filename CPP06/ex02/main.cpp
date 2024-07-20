@@ -6,6 +6,9 @@ int main()
 	Base *base;
 	base = generate();
 	identify(base);
-	identify(*base);
-	delete base;
+	if(base)
+	{
+		identify(*base);
+		delete base;
+	}
 }
