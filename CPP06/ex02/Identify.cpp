@@ -25,12 +25,46 @@ Base *generate()
 	}
 }
 
-void identify(Base *p)
-{
-
-}
+// void identify(Base *p)
+// {
+// 	if (A* a = dynamic_cast<A*>(p))
+// 		std::cout << GREEN << "The pointer is for Class A" << RESET << std::endl;
+// 	else if (B* b = dynamic_cast<B*>(p))
+// 		std::cout << BLUE << "The pointer is for Class B" << RESET << std::endl;
+// 	else if (C* c = dynamic_cast<C*>(p))
+// 		std::cout << YELLOW << "The pointer is for Class C" << RESET << std::endl;
+// 	else
+// 		std::cout << RED << "The pointer is not A or B or C" << RESET << std::endl;
+// }
 
 void identify(Base &p)
 {
-
+	try
+	{
+		A& a = dynamic_cast<A&>(p);
+		(void)a;
+		std::cout << GREEN << "The pointer is for Class A" << RESET << std::endl;
+	}
+	catch(...)
+	{
+		try
+		{
+			B& b = dynamic_cast<B&>(p);
+			(void)b;
+			std::cout << BLUE << "The pointer is for Class B" << RESET << std::endl;
+		}
+		catch (...)
+		{
+			try
+			{
+				C& c = dynamic_cast<C&>(p);
+				(void)c;
+				std::cout << YELLOW << "The pointer is for Class C" << RESET << std::endl;
+			}
+			catch(... )
+			{
+				std::cerr << RED << "The pointer is not A or B or C" << RESET << std::endl;
+			}
+		}
+	}
 }

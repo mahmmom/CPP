@@ -3,5 +3,5 @@
 
 Base::~Base()
 {
-	std::cout << "Base destructor called" << std::endl;
+	std::cout << MAGENTA << "Base destructor called" << RESET << std::endl;
 }

@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+#define MAGENTA "\033[35m"
+#define RESET "\033[0m"
+
 class Base
 {
 	public:
