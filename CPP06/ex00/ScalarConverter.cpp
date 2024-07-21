@@ -27,6 +27,12 @@ ScalarConverter::~ScalarConverter()
 	std::cout << "ScalarConverter destructor called" << std::endl;
 }
 
+
+/*
+====================================== Type Checker =======================================
+*/
+
+//					character count checker
 int ScalarConverter::characterCount(const std::string& str, char ch)
 {
     int count = 0;
@@ -37,10 +43,6 @@ int ScalarConverter::characterCount(const std::string& str, char ch)
     }
     return count;
 }
-
-/*
-====================================== Type Checker =======================================
-*/
 
 //				char checker
 int	ScalarConverter::ifChar(std::string type)
@@ -65,13 +67,14 @@ int	ScalarConverter::ifInt(std::string type, double value, const char* end)
 //					float & double checker
 int	ScalarConverter::ifFloatDouble(std::string type, const char* end)
 {
-	if(type.find('.') == std::string::npos || characterCount(type, '.') != 1)
-		return ERROR;
-	if (end[0] == 'f' && strlen(end) == 1)
-		return FLOAT;
-	else if (end[0] == 'f' && strlen(end) != 1)
-		return ERROR;
-	return DOUBLE;
+	if (type.find('.') != std::string::npos && characterCount(type, '.') == 1)
+	{
+		if ((end[0] == 'f' || end[0] == 'F') && strlen(end) == 1)
+			return FLOAT;
+		else if (end[0] == '\0')
+			return DOUBLE;
+	}
+	return ERROR;
 }
 
 //					literal checker
