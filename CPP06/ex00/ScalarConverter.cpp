@@ -69,7 +69,7 @@ int	ScalarConverter::ifFloatDouble(std::string type, const char* end)
 {
 	if (type.find('.') != std::string::npos && characterCount(type, '.') == 1)
 	{
-		if ((end[0] == 'f' || end[0] == 'F') && strlen(end) == 1)
+		if (end[0] == 'f' && strlen(end) == 1)
 			return FLOAT;
 		else if (end[0] == '\0')
 			return DOUBLE;
