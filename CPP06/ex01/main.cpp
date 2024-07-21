@@ -1,6 +1,5 @@
 #include "Serializer.hpp"
 
-
 /*
 						Data Struct
 						||===========||
@@ -34,7 +33,6 @@ int main()
 	std::cout << MAGENTA << "flag example = " << *(reinterpret_cast<bool*>(++C)) << RESET << std::endl;
 }
 */
-
 
 int main()
 {

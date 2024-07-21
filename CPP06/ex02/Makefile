@@ -1,24 +1,30 @@
 NAME = identify
 
 SRCS = main.cpp Base.cpp Identify.cpp
-
-OBJS = $(SRCS:.cpp=.o)
+OBJS = $(SRCS:%.cpp=obj/%.o)
 
 CXX = c++
-
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+
+# Create the obj directory if it doesn't exist
+$(shell mkdir -p obj)
 
 all: $(NAME)
 
-$(NAME):	$(OBJS)
-			$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
-clean :
-		rm -f $(OBJS)
+# Rule to compile .cpp files to .o files in the obj directory
+obj/%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-fclean : clean
-		rm -f $(NAME)
+clean:
+	rm -f $(OBJS)
+	rm -rf obj
 
-re : fclean all
+fclean: clean
+	rm -f $(NAME)
 
-.PHONY : all clean fclean re
+re: fclean all
+
+.PHONY: all clean fclean re
