@@ -4,8 +4,8 @@ char getRandomItem()
 {
 	std::srand(static_cast<unsigned int>(time(0)));
     const char items[3] = {'A', 'B', 'C'};
-    int index = 0 + (std::rand() % (2 - 0 + 1));
-	std::cout << CYAN << "print = " << items[index] << RESET << std::endl;
+    int index = std::rand() % 3;
+	std::cout << CYAN << "Pointer from random = " << items[index] << RESET << std::endl;
     return items[index];
 }
 
@@ -14,14 +14,14 @@ Base *generate()
 	char random = getRandomItem();
 	switch (random)
 	{
-	case 'A':
-		return new A;
-	case 'B':
-		return new B;
-	case 'C':
-		return new C;
-	default:
-		return NULL;
+		case 'A':
+			return new A;
+		case 'B':
+			return new B;
+		case 'C':
+			return new C;
+		default:
+			return NULL;
 	}
 }
 
@@ -73,3 +73,39 @@ void identify(Base &p)
 		}
 	}
 }
+
+
+/*
+
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+| Feature              | static_cast                   | reinterpret_cast                | dynamic_cast                                 |
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+| Safety               | Type-safe at compile time     | Not type-safe, can cast         | Type-safe at runtime, performs type checking |
+|                      |                               | unrelated types                 |                                              |
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+| Use Case             | Related types, numeric        | Low-level casting,              | Safe downcasting, cross-casting in           |
+|                      | conversions, void pointers    | bit manipulation                | class hierarchy                              |
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+| Runtime Check        | No                            | No                              | Yes                                          |
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+| Polymorphism         | Not required                  | Not required                    | Required (must have virtual functions)       |
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+| Invalid Cast         | Undefined behavior            | Undefined behavior              | Returns nullptr (pointers), throws           |
+|                      |                               |                                 | std::bad_cast (references)                   |
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+| Example Usage        | Upcasting, downcasting within | Casting pointers to unrelated   | Downcasting base to derived safely           |
+|                      | class hierarchy               | types                           |                                              |
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+| Overhead             | None                          | None                            | Runtime overhead due to type checking        |
++----------------------+-------------------------------+---------------------------------+----------------------------------------------+
+
+Static_cast: Safe for compile-time type conversions between related types,
+			 no runtime checks, no overhead.
+
+Reinterpret_cast: Unsafe for type conversion, no runtime checks,
+				  used for low-level casting.
+
+Dynamic_cast: Safe for runtime type checking within class hierarchies, incurs runtime overhead,
+	          requires polymorphic types.
+
+*/

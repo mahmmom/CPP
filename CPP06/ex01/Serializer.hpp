@@ -20,7 +20,6 @@ struct Data
 	bool flag;
 };
 
-
 class Serializer
 {
 	private:

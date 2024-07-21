@@ -1,5 +1,4 @@
 #include "ScalarConverter.hpp"
-#include <cstring>
 
 /*
 ====================================== Constructors & Destructor =======================================
@@ -43,6 +42,7 @@ int ScalarConverter::characterCount(const std::string& str, char ch)
 ====================================== Type Checker =======================================
 */
 
+//				char checker
 int	ScalarConverter::ifChar(std::string type)
 {
 	if(type.size() != 1)
@@ -54,6 +54,7 @@ int	ScalarConverter::ifChar(std::string type)
 	return ERROR;
 }
 
+//					int checker
 int	ScalarConverter::ifInt(std::string type, double value, const char* end)
 {
 	if((value >= INT_MIN && value <= INT_MAX) && type.find('.') == std::string::npos && *end == '\0')
@@ -61,6 +62,7 @@ int	ScalarConverter::ifInt(std::string type, double value, const char* end)
 	return ERROR;
 }
 
+//					float & double checker
 int	ScalarConverter::ifFloatDouble(std::string type, const char* end)
 {
 	if(type.find('.') == std::string::npos || characterCount(type, '.') != 1)
@@ -72,6 +74,7 @@ int	ScalarConverter::ifFloatDouble(std::string type, const char* end)
 	return DOUBLE;
 }
 
+//					literal checker
 int	ScalarConverter::ifLiteral(std::string type)
 {
 	if (type == "-inff" || type == "+inff" || type == "inff" || type == "nanf")
@@ -81,6 +84,7 @@ int	ScalarConverter::ifLiteral(std::string type)
 	return ERROR;
 }
 
+// 			find type main function
 int ScalarConverter::findType(const std::string type)
 {
     char* end;
@@ -88,10 +92,10 @@ int ScalarConverter::findType(const std::string type)
     errno = 0;
     double value = strtod(str, &end);
 
-	if (errno == ERANGE)
-		throw RangeError();
 	if (type.empty())
 		throw EmptyError();
+	if (errno == ERANGE)
+		throw RangeError();
 	if (ifChar(type)!= ERROR)
 		return (ifChar(type));
 	else if (ifInt(type, value, end) != ERROR)
@@ -107,6 +111,7 @@ int ScalarConverter::findType(const std::string type)
 ====================================== Type Converter =======================================
 */
 
+//					char converter
 void ScalarConverter::convertChar(const std::string& type)
 {
     char c = type[0];
@@ -117,6 +122,7 @@ void ScalarConverter::convertChar(const std::string& type)
     std::cout << RED << "double: " << static_cast<double>(c) << ".0" << RESET << std::endl;
 }
 
+//					int converter
 void	ScalarConverter::convertInt(const std::string type)
 {
 	char* end;
@@ -136,12 +142,17 @@ void	ScalarConverter::convertInt(const std::string type)
     std::cout << RED << "double: " << static_cast<double>(value)  << RESET << std::endl;
 }
 
+//					float converter
 void	ScalarConverter::convertFloat(const std::string type)
 {
 	char* end;
     const char* str = type.c_str();
-    double value = strtod(str, &end);
-	
+    double value = strtof(str, &end);
+	errno = 0;
+
+	if (errno == ERANGE)
+		throw RangeError();
+
 	std::cout << std::fixed << std::setprecision(3);
 	std::cout << YELLOW << "The data type is: float "  << RESET << std::endl;
 
@@ -159,13 +170,16 @@ void	ScalarConverter::convertFloat(const std::string type)
     std::cout << RED << "double: " << static_cast<double>(value) << RESET << std::endl;
 }
 
+//					double converter
 void	ScalarConverter::convertDouble(const std::string type)
 {
 	char* end;
     const char* str = type.c_str();
     double value = strtod(str, &end);
-	
-		
+	errno = 0;
+
+	if (errno == ERANGE)
+		throw RangeError();
 	std::cout << YELLOW << "The data type is: Double" << RESET << std::endl;
 	if (value >= 0 && value <= 255 && isprint(static_cast<int>(value)))
 		std::cout << GREEN << "char: '" << static_cast<char>(value) << "'" << RESET << std::endl;
@@ -182,6 +196,7 @@ void	ScalarConverter::convertDouble(const std::string type)
     std::cout << RED << "double: " << static_cast<double>(value) << RESET << std::endl;
 }
 
+//				literal float converter
 void ScalarConverter::literalFloat(const std::string type)
 {
 	std::string doubleValue = type.substr(0, type.length() - 1);
@@ -192,6 +207,7 @@ void ScalarConverter::literalFloat(const std::string type)
     std::cout << RED << "double: " << doubleValue << RESET << std::endl;
 }
 
+//				literal double converter
 void ScalarConverter::literalDouble(const std::string type)
 {
 	std::cout << YELLOW << "The data type is: double literal" << RESET << std::endl;
@@ -201,10 +217,7 @@ void ScalarConverter::literalDouble(const std::string type)
     std::cout << RED << "double: " << type  << RESET << std::endl;
 }
 
-/*
-====================================== Public =======================================
-*/
-
+//					Conversion main function
 void ScalarConverter::convert(const std::string type)
 {
     int castType = findType(type);
