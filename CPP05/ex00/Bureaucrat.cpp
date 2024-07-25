@@ -14,7 +14,7 @@ Bureaucrat::Bureaucrat(std::string& Name, int Grade) : _name(Name) , _grade(Grad
     std::cout << "Bureaucrat naming constructor called" << std::endl;
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat &other)
+Bureaucrat::Bureaucrat(const Bureaucrat &other) : _name(other._name)
 {
     std::cout << "Bureaucrat copy constructor called" << std::endl;
     *this = other;
