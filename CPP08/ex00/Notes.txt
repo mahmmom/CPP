@@ -1,0 +1,162 @@
+Sequence Containers:
+
+-std::array: A fixed-size array.
+-std::vector: A dynamic array.
+-std::deque: A double-ended queue.
+-std::list: A doubly linked list.
+-std::forward_list: A singly linked list.
+
+Container Adaptors:
+
+-std::stack: A LIFO stack (adapter, usually implemented using std::deque or std::vector).
+-std::queue: A FIFO queue (adapter, usually implemented using std::deque or std::list).
+-std::priority_queue: A priority queue (adapter, usually implemented using a heap structure within a std::vector).
+
+Associative Containers:
+
+-std::set: A collection of unique keys, sorted by keys.
+-std::multiset: A collection of keys, sorted by keys, allows duplicate keys.
+-std::map: A collection of key-value pairs, sorted by keys.
+-std::multimap: A collection of key-value pairs, sorted by keys, allows duplicate keys.
+
+Unordered Associative Containers (C++11 and later)
+-std::unordered_set: A collection of unique keys, hashed.
+-std::unordered_multiset: A collection of keys, hashed, allows duplicate keys.
+-std::unordered_map: A collection of key-value pairs, hashed.
+-std::unordered_multimap: A collection of key-value pairs, hashed, allows duplicate keys.
+
+Special Containers:
+-std::bitset: A fixed-size sequence of bits.
+
+
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Feature / Container    | std::vector| std::list   | std::stack | std::deque | std::queue  | std::set  | std::map  |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Underlying Structure   | Dynamic    | Doubly      | Adapter    | Double-    | Adapter     | Balanced  | Balanced  |
+|                        | array      | linked list | (usually   | ended      | (usually    | Binary    | Binary    |
+|                        |            |             | deque or   | queue      | deque or    | Tree      | Tree      |
+|                        |            |             | vector)    |            | list)       |           |           |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Access                 | Random     | Sequential  | Top element| Random     | Front       | Sequential| Sequential|
+|                        | access (O(1)) | access (O(n)) | only (O(1)) | access (O(1)) | element only (O(1)) | access (O(log n)) | access (O(log n)) |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Insertion              | Efficient  | Efficient   | Push at top| Efficient  | Push at     | Efficient | Efficient |
+|                        | at end     | anywhere    | (O(1))     | at both    | back (O(1)) | (O(log n))| (O(log n))|
+|                        | (O(1))     | (O(1))      |            | ends (O(1))|             |           |           |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Deletion               | Efficient  | Efficient   | Pop at top | Efficient  | Pop at      | Efficient | Efficient |
+|                        | at end     | anywhere    | (O(1))     | at both    | front (O(1))| (O(log n))| (O(log n))|
+|                        | (O(1))     | (O(1))      |            | ends (O(1))|             |           |           |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Memory Allocation      | Contiguous | Non-        | Depends on | Contiguous | Depends on  | Non-      | Non-      |
+|                        | block      | contiguous  | underlying | block      | underlying  | contiguous| contiguous|
+|                        |            | nodes       | container  |            | container   | nodes     | nodes     |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Memory Usage           | Generally  | Generally   | Depends on | Generally  | Depends on  | Generally | Generally |
+|                        | less       | more        | underlying | less       | underlying  | more      | more      |
+|                        |            |             | container  |            | container   |           |           |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Iterator Type          | Random     | Bidirectional | Depends on | Random    | Depends on  | Bidirectional| Bidirectional |
+|                        | access     |             | underlying | access     | underlying  |           |           |
+|                        | iterator   |             | container  | iterator   | container   | iterator  | iterator  |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Ordering               | Preserved  | Preserved   | LIFO       | Preserved  | FIFO        | Sorted    | Sorted    |
+|                        | order      | order       | (Last In,  | order      | (First In,  | order     | by key    |
+|                        |            |             | First Out) |            | First Out)  |           |           |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Duplicate Elements     | Allowed    | Allowed     | Allowed    | Allowed    | Allowed     | Not       | Keys not  |
+|                        |            |             |            |            |             | allowed   | allowed   |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Complexity for Size    | O(1)       | O(1)        | O(1)       | O(1)       | O(1)        | O(1)      | O(1)      |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Search Complexity      | O(n)       | O(n)        | O(n)       | O(n)       | O(n)        | O(log n)  | O(log n)  |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Insert Function        | push_back  | insert      | push       | push_back  | push        | insert    | insert    |
+|                        | emplace    | push_back   | emplace    | push_front | emplace     | emplace   | emplace   |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Find Function          | N/A        | N/A         | N/A        | N/A        | N/A         | find      | find      |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Remove Function        | pop_back   | erase       | pop        | pop_back   | pop         | erase     | erase     |
+|                        | erase      | pop_front   |            | pop_front  |             |           |           |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+| Use Case               | Frequent   | Frequent    | LIFO       | Frequent   | FIFO        | Unique    | Key-value |
+|                        | access by  | insertion/  | structure  | access by  | structure   | sorted    | pairs with|
+|                        | index      | deletion    |            | index and  |             | elements  | unique    |
+|                        |            | in the      |            | insertion/ |             |           | keys      |
+|                        |            | middle      |            | deletion   |             |           |           |
+|                        |            |             |            | at both    |             |           |           |
+|                        |            |             |            | ends       |             |           |           |
++------------------------+------------+-------------+------------+------------+-------------+-----------+-----------+
+
+Key Notes:
+
+std::vector:
+Insert: push_back, emplace
+Find: N/A (manual search required)
+Remove: pop_back, erase
+
+std::list:
+Insert: insert, push_back, push_front, emplace
+Find: N/A (manual search required)
+Remove: erase, pop_front, pop_back
+
+std::stack:
+Insert: push, emplace
+Find: N/A (manual search required)
+Remove: pop
+
+std::deque:
+Insert: push_back, push_front, emplace
+Find: N/A (manual search required)
+Remove: pop_back, pop_front
+
+std::queue:
+Insert: push, emplace
+Find: N/A (manual search required)
+Remove: pop
+
+std::set:
+Insert: insert, emplace
+Find: find
+Remove: erase
+
+std::map:
+Insert: insert, emplace
+Find: find
+Remove: erase
+
+
+Detailed Comparison:
+std::vector
+Best Use: When you need fast random access and frequent insertion/deletion at the end.
+Drawbacks: Inserting or deleting elements in the middle can be slow due to the need to shift elements.
+
+std::list
+Best Use: When you need frequent insertion/deletion in the middle of the sequence.
+Drawbacks: Slow random access as it requires traversal from the beginning or end.
+
+std::stack
+Best Use: When you need a LIFO data structure.
+Drawbacks: Only the top element is accessible; random access and iteration are not possible.
+
+std::deque
+Best Use: When you need fast insertion/deletion at both ends and random access.
+Drawbacks: Slightly more memory overhead than std::vector.
+
+std::queue
+Best Use: When you need a FIFO data structure.
+Drawbacks: Only the front and back elements are accessible; random access and iteration are not possible.
+
+std::set
+Best Use: When you need a collection of unique elements sorted in a specific order.
+Drawbacks: Slightly higher memory usage due to the underlying tree structure.
+
+std::map
+Best Use: When you need to associate keys with values and ensure unique keys with sorted order.
+Drawbacks: Slightly higher memory usage due to the underlying tree structure.
+
+Conclusion:
+Each container type is designed for specific use cases and has its own strengths and weaknesses.
+Choosing the appropriate container depends on the operations you need to perform 
+most frequently (e.g., random access, insertion/deletion, ordering) and the constraints of your application 
+(e.g., memory usage, performance requirements).
