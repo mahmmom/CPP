@@ -7,10 +7,10 @@ using namespace std;
 
 template <typename T>
 class accum {
-    T _acc = 0;
+    T _acc;
     accum(){}
 public:
-    accum(T n) : _acc(n){}
+    accum(T n) : _acc(n) {}
     T operator() (T y) { _acc += y; return _acc; }
 };
 

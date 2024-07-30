@@ -13,6 +13,17 @@ Map needs a key then the value, like (int,std::string) -> (0,mohamed), accessing
 Unordered map and Unordered multi map are in c++11, thus we cant use them, but they just do the opposite
 
 */
+//			Generic Printing function
+template<typename T>
+void	print(const T& my_map)
+{
+	std::cout << "Map content = { ";
+    for (typename T::const_iterator it = my_map.begin(); it != my_map.end(); ++it)
+    {
+        std::cout << it->first << " --> " << it->second << " ";
+    }
+    std::cout << " }" << std::endl;
+}
 
 //      map
 void printmap(const std::map<int, std::string>& my_map)
