@@ -51,6 +51,7 @@
         "list": "cpp",
         "set": "cpp",
         "unordered_set": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "forward_list": "cpp"
     }
 }
