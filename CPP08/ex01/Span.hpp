@@ -21,24 +21,26 @@
 #define MAGENTA "\033[35m"
 #define CYAN "\033[36m"
 
-//      Exception
-
 
 //      Class
 class Span
 {
     private:
         unsigned int _N;
-        std::vector<unsigned int> _v;
-        Span();
+	  	std::vector<unsigned int> _v;
 
     public:
+        Span();
         Span(unsigned int N);
+        Span(const Span& other);
+		Span& operator=(const Span& other);
         ~Span();
         unsigned int shortestSpan();
         unsigned int longestSpan();
-        void    addNumber(unsigned int num);
-
+        void    addNumber(int num);
+		void	addRandomNumbers(int size);
+		unsigned int 	getSize() const;
+		std::vector<unsigned int> getVector() const;
 
     class notFound : public std::exception
     {
@@ -53,6 +55,7 @@ class Span
     };
 };
 
+int RandomNumber();
 
 #endif
 

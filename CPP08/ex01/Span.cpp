@@ -1,52 +1,83 @@
 #include "Span.hpp"
+#include <algorithm>
+#include <climits>
+#include <vector>
 
-Span::Span(unsigned int N) : _N(N)
+
+Span::Span() : _N(0){}
+
+Span::Span(unsigned int N) : _N(N){}
+
+Span::Span(const Span& other) 
 {
-
+	*this = other;
 }
 
-Span::~Span()
+Span&	Span::operator=(const Span& other)
 {
-
+	if (this != &other)
+	{
+		this->_N = other._N;
+		this->_v = other._v;
+	}
+	return *this;
 }
 
-void Span::addNumber(unsigned int num)
+Span::~Span(){}
+
+void Span::addNumber(int num)
 {
-    if (_v.size() <= _N)
-        _v.push_back(num);
-    else
-        throw outOfRange();
+	if(_v.size() == _N)
+		throw outOfRange();
+	if (num < 0)
+		throw std::runtime_error("Number is Negative");
+	_v.push_back(num);
 }
 
 unsigned int Span::shortestSpan()
 {
-    std::vector<unsigned int>::iterator it1 = _v.begin();
-    std::vector<unsigned int>::iterator it2;
-    unsigned int min = 4294967295;
+    if (_v.size() < 2)
+        throw outOfRange();
 
-    for (it1 ;  it1 < _v.end(); it1++)
+    std::sort(_v.begin(), _v.end());
+    std::vector<unsigned int>::iterator it = _v.begin();
+    unsigned int min = *(it + 1) - *it;
+
+    for (it = _v.begin() + 1; it != _v.end() - 1; ++it)
     {
-        unsigned int temp = *it1;
-        it2 = _v.begin() + 1;
-        for (it2 ;  it2 < _v.end(); it2++)
-        {
-            temp -= *it2;
-            if(temp < min)
-                min = temp;
-        }
+        unsigned int span = *(it + 1) - *it;
+        if (span < min)
+            min = span;
     }
     return min;
 }
 
 unsigned int Span::longestSpan()
 {
-     if (_v.size() < 2)
-        throw notFound();
+    if (_v.size() < 2)
+	 throw notFound();
 
-    unsigned int min_val = *std::min_element(_v.begin(), _v.end());
-    unsigned int max_val = *std::max_element(_v.begin(), _v.end());
+	return(*std::max_element(_v.begin(), _v.end()) - *std::min_element(_v.begin(), _v.end()));
+}
 
-    return max_val - min_val;
+void	Span::addRandomNumbers(int size)
+{
+	if (size < 0)
+		throw std::runtime_error("Size cant be Negative");
+    for (int i = 0; i < size; i++)
+	{
+		_v.insert(_v.begin(), rand() % 100);
+	}
+}
+
+unsigned int 	Span::getSize() const
+{
+	return _N;
+}
+
+std::vector<unsigned int> Span::getVector() const
+{
+	return _v;
 }
 
 const char* Span::notFound:: what() const throw()

@@ -1,6 +1,6 @@
-NAME = span
+NAME = stack
 
-SRCS = main.cpp Span.cpp
+SRCS = main.cpp
 OBJS = $(SRCS:%.cpp=obj/%.o)
 
 CXX = c++
