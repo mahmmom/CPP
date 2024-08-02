@@ -27,7 +27,7 @@ class Span
 {
     private:
         unsigned int _N;
-	  	std::vector<unsigned int> _v;
+	  	std::vector<int> _v;
 
     public:
         Span();
@@ -40,7 +40,7 @@ class Span
         void    addNumber(int num);
 		void	addRandomNumbers(int size);
 		unsigned int 	getSize() const;
-		std::vector<unsigned int> getVector() const;
+		std::vector<int> getVector() const;
 
     class notFound : public std::exception
     {
