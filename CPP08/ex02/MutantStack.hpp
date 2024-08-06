@@ -7,10 +7,7 @@
 #include <exception>
 
 // containers
-#include <vector>
-#include <deque>
 #include <list>
-#include <set>
 #include <stack>
 
 //      Colors

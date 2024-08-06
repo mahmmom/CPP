@@ -7,8 +7,6 @@ int main()
     std::stack<int> numbers;
     int temp = 0;
 
-	numbers.swap(stack<int> &s)
-
     std::cout << ".....Push to stack....." << std::endl;
     while (temp >= 0)
     {
