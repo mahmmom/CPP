@@ -1,31 +1,28 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <iostream>
+#include <map>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <map>
-
+#include <iostream>
+#include <cstdlib>
+#include <limits>
 
 class BitcoinExchange
 {
-	private:
-		std::map<std::string, double> data;
-		std::map<std::string, size_t> input;
-	public:
-		BitcoinExchange();
-		BitcoinExchange(const BitcoinExchange& other);
-		BitcoinExchange& operator=(const BitcoinExchange& other);
-		~BitcoinExchange();
+private:
+    std::map<std::string, double> exchangeRates;
+    bool isValidDate(const std::string& date);
+    bool isValidValue(const std::string& value);
+    std::string findClosestDate(const std::string& date);
 
-		void fillInput(std::string file);
-		void fillData(std::string file);
-		void printMap();
+public:
+    BitcoinExchange();
+    ~BitcoinExchange();
 
-
+    void loadDatabase(const std::string& filename);
+    void processInputFile(const std::string& filename);
 };
-
-
 
 #endif
