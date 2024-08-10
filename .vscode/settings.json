@@ -76,6 +76,8 @@
 		"locale": "cpp",
 		"mutex": "cpp",
 		"queue": "cpp",
-		"ratio": "cpp"
+		"ratio": "cpp",
+		"__memory": "cpp",
+		"filesystem": "cpp"
 	}
 }
