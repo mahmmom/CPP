@@ -14,6 +14,8 @@ class BitcoinExchange
 	private:
 		std::map<std::string, double> exchangeRates;
 		bool isValidDate(const std::string& date);
+		bool isLeapYear(const std::string& date);
+		bool isHeaderExist(const std::string& header);
 		bool isValidValue(const std::string& date, const std::string& value);
 		std::string findClosestDate(const std::string& date);
 		void processLine(const std::string& line);

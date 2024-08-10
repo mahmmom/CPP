@@ -59,7 +59,11 @@ void BitcoinExchange::processInputFile(const std::string& filename)
 
     std::string line;
     std::getline(file, line);
-
+	if(!isHeaderExist(line))
+	{
+		std::cerr << "Error: header not found." << std::endl;
+		return;
+	}
     if(file.peek() == std::ifstream::traits_type::eof())
 	{
 		std::cerr << "Error: empty file." << std::endl;
@@ -71,6 +75,13 @@ void BitcoinExchange::processInputFile(const std::string& filename)
         processLine(line);
     }
     file.close();
+}
+
+bool BitcoinExchange::isHeaderExist(const std::string& header)
+{
+	if(header != "date | value")
+		return false;
+	return true;
 }
 
 void BitcoinExchange::processLine(const std::string& line)
@@ -128,8 +139,15 @@ bool BitcoinExchange::isValidDate(const std::string& date)
     iss >> year >> delimiter >> month >> delimiter >> day;
     if (year < 2009 || year > 2024|| month < 1 || month > 12 || day < 1 || day > 31)
 		return false;
-
+	if (month == 2 && day == 29 && !isLeapYear(date))
+			return false;
     return true;
+}
+
+bool BitcoinExchange::isLeapYear(const std::string& date)
+{
+	int year = std::atoi(date.substr(0, 4).c_str());
+	return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
 }
 
 bool BitcoinExchange::isValidValue(const std::string& date, const std::string& value)
