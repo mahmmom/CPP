@@ -19,18 +19,18 @@ BitcoinExchange::~BitcoinExchange(){}
 
 /*=============== Class Functions =======================*/
 
-void BitcoinExchange::loadDatabase(const std::string& filename)
+bool BitcoinExchange::loadDatabase(const std::string& filename)
 {
     std::ifstream file(filename.c_str());
     if (!file.is_open())
 	{
 		std::cerr << "Error: could not open file." << std::endl;
-		return;
+		return false;
 	}
 	if(file.peek() == std::ifstream::traits_type::eof())
 	{
 		std::cerr << "Error: empty file." << std::endl;
-		return;
+		return false;
 	}
 
     std::string line;
@@ -46,15 +46,16 @@ void BitcoinExchange::loadDatabase(const std::string& filename)
     }
 
     file.close();
+    return true;
 }
 
-void BitcoinExchange::processInputFile(const std::string& filename)
+bool BitcoinExchange::processInputFile(const std::string& filename)
 {
     std::ifstream file(filename.c_str());
     if (!file.is_open())
     {
 		std::cerr << "Error: could not open file." << std::endl;
-		return;
+		return false;
 	}
 
     std::string line;
@@ -62,19 +63,21 @@ void BitcoinExchange::processInputFile(const std::string& filename)
 	if(!isHeaderExist(line))
 	{
 		std::cerr << "Error: header not found." << std::endl;
-		return;
+		return false;
 	}
     if(file.peek() == std::ifstream::traits_type::eof())
 	{
 		std::cerr << "Error: empty file." << std::endl;
-		return;
+		return false;
 	}
 
     while (std::getline(file, line))
     {
-        processLine(line);
+        if(!processLine(line))
+            return false;
     }
     file.close();
+    return true;
 }
 
 bool BitcoinExchange::isHeaderExist(const std::string& header)
@@ -84,7 +87,7 @@ bool BitcoinExchange::isHeaderExist(const std::string& header)
 	return true;
 }
 
-void BitcoinExchange::processLine(const std::string& line)
+bool BitcoinExchange::processLine(const std::string& line)
 {
     std::istringstream iss(line);
     std::string date, value;
@@ -92,15 +95,16 @@ void BitcoinExchange::processLine(const std::string& line)
     if (!std::getline(iss, date, '|') || !std::getline(iss, value))
 	{
 		std::cerr << "Error: bad input => " << date << std::endl;
-		return;
+		return false;
 	}
 
     date = trimRight(date);
     value = trimLeft(value);
 
     if(!validateInput(date, value))
-		return;
+		return false;
     calculateAndPrintResult(date, value);
+    return true;
 }
 
 std::string BitcoinExchange::trimRight(const std::string& s)
@@ -138,9 +142,9 @@ bool BitcoinExchange::isValidDate(const std::string& date)
 
     iss >> year >> delimiter >> month >> delimiter >> day;
     if (year < 2009 || year > 2024|| month < 1 || month > 12 || day < 1 || day > 31)
-		return false;
-	if (month == 2 && day == 29 && !isLeapYear(date))
-			return false;
+        return false;
+    if (month == 2 && day == 29 && !isLeapYear(date))
+        return false;
     return true;
 }
 

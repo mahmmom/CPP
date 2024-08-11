@@ -18,7 +18,7 @@ class BitcoinExchange
 		bool isHeaderExist(const std::string& header);
 		bool isValidValue(const std::string& date, const std::string& value);
 		std::string findClosestDate(const std::string& date);
-		void processLine(const std::string& line);
+		bool processLine(const std::string& line);
     	bool validateInput(const std::string& date, const std::string& value);
     	void calculateAndPrintResult(const std::string& date, const std::string& value);
     	std::string trimRight(const std::string& s);
@@ -27,12 +27,11 @@ class BitcoinExchange
 	public:
 		BitcoinExchange();
 		~BitcoinExchange();
-		void loadDatabase(const std::string& filename);
-		void processInputFile(const std::string& filename);
-
 		BitcoinExchange(const BitcoinExchange& other);
 		BitcoinExchange& operator=(const BitcoinExchange& other);
 
+		bool loadDatabase(const std::string& filename);
+		bool processInputFile(const std::string& filename);
 };
 
 #endif

@@ -8,7 +8,9 @@ int main(int argc, char** argv)
         return 1;
     }
 	BitcoinExchange exchange;
-	exchange.loadDatabase("data.csv");
-	exchange.processInputFile(argv[1]);
+	if(!exchange.loadDatabase("data.csv"))
+        return 1;
+	if(!exchange.processInputFile(argv[1]))
+        return 1;
     return 0;
 }
