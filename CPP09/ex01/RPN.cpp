@@ -96,4 +96,3 @@ const char *RPN::Overflow::what() const throw()
 {
     return "Error: Overflow";
 }
-

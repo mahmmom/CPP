@@ -73,8 +73,7 @@ bool BitcoinExchange::processInputFile(const std::string& filename)
 
     while (std::getline(file, line))
     {
-        if(!processLine(line))
-            return false;
+        processLine(line);
     }
     file.close();
     return true;
