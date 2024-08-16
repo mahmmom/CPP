@@ -14,12 +14,12 @@ int main(int argc, char* argv[])
     try {
         sorter.parseInput(argc, argv);
         
-        std::cout << "Before: ";
+        std::cout << "Before: " << std::endl;
         sorter.displayResults();
 
         sorter.sort();
 
-        std::cout << "After: ";
+        std::cout << "After: " << std::endl;
         sorter.displayResults();
     }
     catch (std::exception& e)

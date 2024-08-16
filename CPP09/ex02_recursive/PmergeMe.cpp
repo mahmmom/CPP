@@ -22,11 +22,16 @@ void PmergeMe::parseInput(int argc, char* argv[])
 		iss >> str;
 		if (str.find_first_not_of("0123456789") != std::string::npos || str.empty())
 			throw invalidInput();
-        int num = std::atoi(str.c_str()); // check for long long
+        long long num = std::atoll(str.c_str()); // check for long long
         if (num <= 0)
             throw invalidInput();
-        vec.push_back(num);
-        lst.push_back(num);
+		if(std::find(vec.begin(), vec.end(), num) == vec.end())
+		{
+			vec.push_back(num);
+			lst.push_back(num);
+		}
+		else
+			throw invalidInput();
     }
 }
 

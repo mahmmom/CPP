@@ -9,6 +9,7 @@
 #include <sstream>
 #include <ctime>
 #include <exception>
+#include <set>
 
 class PmergeMe
 {
