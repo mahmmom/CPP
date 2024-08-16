@@ -31,7 +31,7 @@ void PmergeMe::parseInput(int argc, char* argv[])
 		std::string str = argv[i];
 		if (str.find_first_not_of("0123456789") != std::string::npos || str.empty())
 			throw invalidInput();
-		num = std::stoll(str);
+		num = std::atoi(str.c_str()); // Need to check again
 		if (num < 1)
 			throw invalidInput();
 		vec.push_back(num);
@@ -214,17 +214,21 @@ std::vector<int> PmergeMe::buildJacobInsertionSequence(int size)
 
 int PmergeMe::jacobsthal(int n)
 {
-    if (n == 0) return 0;
-    if (n == 1) return 1;
+    if (n == 0)
+		return 0;
+    if (n == 1)
+		return 1;
     return jacobsthal(n - 1) + 2 * jacobsthal(n - 2);
 }
 
 void PmergeMe::sort()
 {
     // Vector sorting
-    if (vec.size() > 1) {
+    if (vec.size() > 1)
+	{
         tempVec = vec.size() % 2 ? vec.back() : -1;
-        if (tempVec != -1) vec.pop_back();
+        if (tempVec != -1)
+			vec.pop_back();
 
         std::vector<std::pair<int, int> > vecPairs = createPairs(vec);
         sortEachPair(vecPairs);
@@ -233,9 +237,11 @@ void PmergeMe::sort()
     }
 
     // List sorting
-    if (lst.size() > 1) {
+    if (lst.size() > 1)
+	{
         tempLst = lst.size() % 2 ? lst.back() : -1;
-        if (tempLst != -1) lst.pop_back();
+        if (tempLst != -1) 
+			lst.pop_back();
 
         std::list<std::pair<int, int> > lstPairs = createPairs(lst);
         sortEachPair(lstPairs);

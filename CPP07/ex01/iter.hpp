@@ -16,14 +16,9 @@ template <typename T, size_t N, typename F>
 void iter(T (&array)[N], size_t length, F function)
 {
 	if (N < length)
-	{
-		std::cerr << "Invalid index" << std::endl;
-		return;
-	}
+		return std::cerr << "Invalid index" << std::endl, void();
     for (size_t i = 0; i < length; ++i)
-	{
         function(array[i]);
-    }
 }
 
 #endif
