@@ -1,4 +1,5 @@
 #include "PmergeMe.hpp"
+#include <iomanip>
 
 
 PmergeMe::PmergeMe() {}
@@ -13,25 +14,29 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other)
     return *this;
 }
 
+bool PmergeMe::isNumber(std::string& str)
+{
+	for (size_t i = 0; i < str.size(); ++i)
+	{
+		if (!std::isdigit(str[i]))
+			return false;
+	}
+	return true;
+}
+
 void PmergeMe::parseInput(int argc, char* argv[])
 {
     for (int i = 1; i < argc; ++i)
 	{
-		std::string str;
-        std::istringstream iss(argv[i]);
-		iss >> str;
-		if (str.find_first_not_of("0123456789") != std::string::npos || str.empty())
+		std::string str = argv[i];
+		if (!isNumber(str) || str.empty())
 			throw invalidInput();
-        long long num = std::atoll(str.c_str()); // check for long long
-        if (num <= 0)
-            throw invalidInput();
-		if(std::find(vec.begin(), vec.end(), num) == vec.end())
-		{
-			vec.push_back(num);
-			lst.push_back(num);
-		}
-		else
+        double num = std::strtod(str.c_str(),NULL);
+		if (num <=0 || num != static_cast<int>(num))
 			throw invalidInput();
+       
+		vec.push_back(num);
+		lst.push_back(num);
     }
 }
 
@@ -61,15 +66,15 @@ void PmergeMe::sort()
     vec = mergeInsertSort(vec);
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    std::cout << "Time to process a range of " << vec.size() 
-              << " elements with std::vector : " << cpu_time_used * 1000000 << " us" << std::endl;
+    std::cout  << std::fixed << "Time to process a range of " << vec.size() 
+              << " elements with std::vector : "  << cpu_time_used  << " us" << std::endl;
 
     start = clock();
     lst = mergeInsertSort(lst);
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    std::cout << "Time to process a range of " << lst.size() 
-              << " elements with std::list : " << cpu_time_used * 1000000 << " us" << std::endl;
+    std::cout << std::fixed << "Time to process a range of " << lst.size() 
+              << " elements with std::list : " << cpu_time_used  << " us" << std::endl;
 }
 
 template <typename Container>
@@ -100,9 +105,7 @@ Container PmergeMe::mergeInsertSort(Container& container)
             largerElements.push_back(pairs[i].first);
         }
     }
-
     largerElements = mergeInsertSort(largerElements);
-
     return insertSmallerElements(largerElements, smallerElements);
 }
 
@@ -141,31 +144,48 @@ Container PmergeMe::insertSmallerElements(const Container& sorted, const Contain
 {
     Container result = sorted;
     if (smaller.empty())
-		return result;
+        return result;
 
-    result.insert(result.begin(), smaller.front());
-    
+    std::set<typename Container::value_type> insertedElements(result.begin(), result.end());
+
+    typename Container::const_iterator firstIt = smaller.begin();
+    if (insertedElements.find(*firstIt) == insertedElements.end())
+    {
+        typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), *firstIt);
+        result.insert(insertPos, *firstIt);
+        insertedElements.insert(*firstIt);
+    }
+
     std::vector<int> jacobsthalSeq = buildJacobsthalSequence(smaller.size());
     
     for (size_t i = 1; i < jacobsthalSeq.size(); ++i)
-	{
+    {
+        if (static_cast<unsigned long>(jacobsthalSeq[i] - 1) >= smaller.size())
+            break;
+
         typename Container::const_iterator it = smaller.begin();
         std::advance(it, jacobsthalSeq[i] - 1);
-        typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), *it);
-        result.insert(insertPos, *it);
+        if (insertedElements.find(*it) == insertedElements.end())
+        {
+            typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), *it);
+            result.insert(insertPos, *it);
+            insertedElements.insert(*it);
+        }
     }
 
     for (typename Container::const_iterator it = smaller.begin(); it != smaller.end(); ++it)
-	{
-        if (std::find(result.begin(), result.end(), *it) == result.end())
-		{
+    {
+        if (insertedElements.find(*it) == insertedElements.end())
+        {
             typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), *it);
             result.insert(insertPos, *it);
+            insertedElements.insert(*it);
         }
     }
 
     return result;
 }
+
 
 std::vector<int> PmergeMe::buildJacobsthalSequence(size_t n)
 {

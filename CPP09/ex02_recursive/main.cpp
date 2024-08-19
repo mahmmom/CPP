@@ -9,9 +9,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    PmergeMe sorter;
-
-    try {
+    try
+	{
+    	PmergeMe sorter;
         sorter.parseInput(argc, argv);
         
         std::cout << "Before: " << std::endl;

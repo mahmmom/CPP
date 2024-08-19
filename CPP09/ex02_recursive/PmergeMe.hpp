@@ -16,20 +16,15 @@ class PmergeMe
 	private:
 		std::vector<int> vec;
 		std::list<int> lst;
-
+		bool isNumber(std::string& str);
 		template <typename Container>
 		Container mergeInsertSort(Container& container);
-
 		template <typename Container>
 		std::vector<std::pair<int, int> > createPairs(const Container& container);
-
 		void sortPair(std::pair<int, int>& pair);
-
 		template <typename Container>
 		Container insertSmallerElements(const Container& sorted, const Container& smaller);
-
 		std::vector<int> buildJacobsthalSequence(size_t n);
-
 		int jacobsthal(int n);
 
 	public:
@@ -47,5 +42,6 @@ class PmergeMe
 			const char* what() const throw();
 		};
 };
+
 
 #endif
