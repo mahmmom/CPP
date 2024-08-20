@@ -9,7 +9,6 @@
 #include <sstream>
 #include <ctime>
 #include <exception>
-#include <set>
 
 class PmergeMe
 {
@@ -23,7 +22,7 @@ class PmergeMe
 		std::vector<std::pair<int, int> > createPairs(const Container& container);
 		void sortPair(std::pair<int, int>& pair);
 		template <typename Container>
-		Container insertSmallerElements(const Container& sorted, const Container& smaller);
+		Container insertSmallerElements(const Container& sorted, Container smaller);
 		std::vector<int> buildJacobsthalSequence(size_t n);
 		int jacobsthal(int n);
 

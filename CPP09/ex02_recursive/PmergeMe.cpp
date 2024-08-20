@@ -7,7 +7,8 @@ PmergeMe::~PmergeMe() {}
 PmergeMe::PmergeMe(const PmergeMe& other) : vec(other.vec), lst(other.lst) {}
 PmergeMe& PmergeMe::operator=(const PmergeMe& other)
 {
-    if (this != &other) {
+    if (this != &other)
+	{
         vec = other.vec;
         lst = other.lst;
     }
@@ -42,39 +43,42 @@ void PmergeMe::parseInput(int argc, char* argv[])
 
 void PmergeMe::displayResults() const
 {
-    std::cout << "Vector: ";
     for (size_t i = 0; i < vec.size(); ++i)
 	{
         std::cout << vec[i] << " ";
     }
     std::cout << std::endl;
 
-    std::cout << "List: ";
-    for (std::list<int>::const_iterator it = lst.begin(); it != lst.end(); ++it)
-	{
-        std::cout << *it << " ";
-    }
-    std::cout << std::endl;
+
+    // for (std::list<int>::const_iterator it = lst.begin(); it != lst.end(); ++it)
+	// {
+    //     std::cout << *it << " ";
+    // }
+    // std::cout << std::endl;
 }
 
 void PmergeMe::sort()
 {
     clock_t start, end;
+    clock_t start2, end2;
     double cpu_time_used;
+    double cpu_time_used2;
 
     start = clock();
     vec = mergeInsertSort(vec);
     end = clock();
+    start2 = clock();
+    lst = mergeInsertSort(lst);
+    end2 = clock();
+
+	displayResults();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
     std::cout  << std::fixed << "Time to process a range of " << vec.size() 
               << " elements with std::vector : "  << cpu_time_used  << " us" << std::endl;
 
-    start = clock();
-    lst = mergeInsertSort(lst);
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    cpu_time_used2 = ((double) (end2 - start2)) / CLOCKS_PER_SEC;
     std::cout << std::fixed << "Time to process a range of " << lst.size() 
-              << " elements with std::list : " << cpu_time_used  << " us" << std::endl;
+              << " elements with std::list : " << cpu_time_used2  << " us" << std::endl;
 }
 
 template <typename Container>
@@ -82,17 +86,13 @@ Container PmergeMe::mergeInsertSort(Container& container)
 {
     if (container.size() <= 1)
 		return container;
-
     std::vector<std::pair<int, int> > pairs = createPairs(container);
-
     for (size_t i = 0; i < pairs.size(); ++i)
 	{
         sortPair(pairs[i]);
     }
-
     Container largerElements;
     Container smallerElements;
-
     for (size_t i = 0; i < pairs.size(); ++i)
 	{
 		if (pairs[i].second != -1)
@@ -101,9 +101,7 @@ Container PmergeMe::mergeInsertSort(Container& container)
             smallerElements.push_back(pairs[i].first);
         }
 		else
-		{
             largerElements.push_back(pairs[i].first);
-        }
     }
     largerElements = mergeInsertSort(largerElements);
     return insertSmallerElements(largerElements, smallerElements);
@@ -114,7 +112,6 @@ std::vector<std::pair<int, int> > PmergeMe::createPairs(const Container& contain
 {
     std::vector<std::pair<int, int> > pairs;
     typename Container::const_iterator it = container.begin();
-    
     while (it != container.end())
 	{
         int first = *it++;
@@ -124,9 +121,7 @@ std::vector<std::pair<int, int> > PmergeMe::createPairs(const Container& contain
             pairs.push_back(std::make_pair(first, second));
         }
 		else
-		{
-            pairs.push_back(std::make_pair(first, -1)); // Straggler
-        }
+            pairs.push_back(std::make_pair(first, -1));
     }
     return pairs;
 }
@@ -134,55 +129,37 @@ std::vector<std::pair<int, int> > PmergeMe::createPairs(const Container& contain
 void PmergeMe::sortPair(std::pair<int, int>& pair)
 {
     if (pair.second != -1 && pair.first > pair.second)
-	{
         std::swap(pair.first, pair.second);
-    }
 }
 
 template <typename Container>
-Container PmergeMe::insertSmallerElements(const Container& sorted, const Container& smaller)
+Container PmergeMe::insertSmallerElements(const Container& sorted, Container smaller)
 {
     Container result = sorted;
     if (smaller.empty())
         return result;
-
-    std::set<typename Container::value_type> insertedElements(result.begin(), result.end());
-
-    typename Container::const_iterator firstIt = smaller.begin();
-    if (insertedElements.find(*firstIt) == insertedElements.end())
-    {
-        typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), *firstIt);
-        result.insert(insertPos, *firstIt);
-        insertedElements.insert(*firstIt);
-    }
-
+    typename Container::iterator firstIt = smaller.begin();
+    typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), *firstIt);
+    result.insert(insertPos, *firstIt);
+    smaller.erase(firstIt);
     std::vector<int> jacobsthalSeq = buildJacobsthalSequence(smaller.size());
-    
-    for (size_t i = 1; i < jacobsthalSeq.size(); ++i)
+    for (size_t i = 0; i < jacobsthalSeq.size(); ++i)
     {
-        if (static_cast<unsigned long>(jacobsthalSeq[i] - 1) >= smaller.size())
+        if (static_cast<unsigned long>(jacobsthalSeq[i]) >= smaller.size())
             break;
 
-        typename Container::const_iterator it = smaller.begin();
-        std::advance(it, jacobsthalSeq[i] - 1);
-        if (insertedElements.find(*it) == insertedElements.end())
-        {
-            typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), *it);
-            result.insert(insertPos, *it);
-            insertedElements.insert(*it);
-        }
+        typename Container::iterator it = smaller.begin();
+        std::advance(it, jacobsthalSeq[i]);
+        insertPos = std::lower_bound(result.begin(), result.end(), *it);
+        result.insert(insertPos, *it);
+        smaller.erase(it);
     }
-
-    for (typename Container::const_iterator it = smaller.begin(); it != smaller.end(); ++it)
+    for (typename Container::iterator it = smaller.begin(); it != smaller.end();)
     {
-        if (insertedElements.find(*it) == insertedElements.end())
-        {
-            typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), *it);
-            result.insert(insertPos, *it);
-            insertedElements.insert(*it);
-        }
+        insertPos = std::lower_bound(result.begin(), result.end(), *it);
+        result.insert(insertPos, *it);
+        it = smaller.erase(it);
     }
-
     return result;
 }
 

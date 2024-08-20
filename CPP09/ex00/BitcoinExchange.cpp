@@ -81,9 +81,7 @@ bool BitcoinExchange::processInputFile(const std::string& filename)
 
 bool BitcoinExchange::isHeaderExist(const std::string& header)
 {
-	if(header != "date | value")
-		return false;
-	return true;
+	return header == "date | value" ? true : false;
 }
 
 bool BitcoinExchange::processLine(const std::string& line)
@@ -96,9 +94,13 @@ bool BitcoinExchange::processLine(const std::string& line)
 		std::cerr << "Error: bad input => " << date << std::endl;
 		return false;
 	}
-
     date = trimRight(date);
     value = trimLeft(value);
+	if(value.empty() || date.empty())
+	{
+		std::cerr << "Error: bad input => " << date << std::endl;
+		return false;
+	}
 
     if(!validateInput(date, value))
 		return false;
@@ -108,12 +110,18 @@ bool BitcoinExchange::processLine(const std::string& line)
 
 std::string BitcoinExchange::trimRight(const std::string& s)
 {
-    return s.substr(0, s.find_last_not_of(" \t") + 1);
+	size_t pos = s.find_last_not_of(" \t") + 1;
+	if (pos == std::string::npos)
+		return "";
+	return s.substr(0, s.find_last_not_of(" \t") + 1);
 }
 
 std::string BitcoinExchange::trimLeft(const std::string& s)
 {
-    return s.substr(s.find_first_not_of(" \t"));
+	size_t pos = s.find_first_not_of(" \t");
+	if (pos == std::string::npos)
+		return "";
+	return s.substr(pos);
 }
 
 bool BitcoinExchange::validateInput(const std::string& date, const std::string& value)
@@ -180,7 +188,7 @@ void BitcoinExchange::calculateAndPrintResult(const std::string& date, const std
 {
     std::string closestDate = findClosestDate(date);
     double rate = exchangeRates[closestDate];
-    double amount = std::atof(value.c_str());
+    double amount = std::strtod(value.c_str(),NULL);
     double result = amount * rate;
     
     std::cout << date << " => " << value << " = " << result << std::endl;
@@ -190,7 +198,7 @@ std::string BitcoinExchange::findClosestDate(const std::string& date)
 {
     std::map<std::string, double>::iterator it = exchangeRates.lower_bound(date);
     if (it == exchangeRates.begin())
-	return it->first;
+		return it->first;
     if (it == exchangeRates.end() || it->first != date)
 		--it;
     return it->first;

@@ -9,18 +9,19 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+
     try
 	{
-    	PmergeMe sorter;
+		PmergeMe sorter;
         sorter.parseInput(argc, argv);
         
-        std::cout << "Before: " << std::endl;
+        std::cout << "Before: ";
         sorter.displayResults();
 
+        std::cout << "After: ";
         sorter.sort();
 
-        std::cout << "After: " << std::endl;
-        sorter.displayResults();
+        // sorter.displayResults();
     }
     catch (std::exception& e)
 	{
