@@ -150,7 +150,7 @@ bool BitcoinExchange::isValidDate(const std::string& date)
     iss >> year >> delimiter >> month >> delimiter >> day;
     if (year < 2009 || year > 2024|| month < 1 || month > 12 || day < 1 || day > 31)
         return false;
-    if (month == 2 && day == 29 && !isLeapYear(date))
+    if (month == 2 && day == 29 && !isLeapYear(date) || (month == 2 && day > 29))
         return false;
     return true;
 }
