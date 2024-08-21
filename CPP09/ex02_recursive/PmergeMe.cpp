@@ -163,7 +163,6 @@ Container PmergeMe::insertSmallerElements(const Container& sorted, Container sma
     return result;
 }
 
-
 std::vector<int> PmergeMe::buildJacobsthalSequence(size_t n)
 {
     std::vector<int> sequence;

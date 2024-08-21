@@ -1,6 +1,5 @@
 #include "PmergeMe.hpp"
 
-
 int main(int argc, char* argv[])
 {
     if (argc < 2)
@@ -9,19 +8,14 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-
     try
 	{
 		PmergeMe sorter;
         sorter.parseInput(argc, argv);
-        
         std::cout << "Before: ";
         sorter.displayResults();
-
         std::cout << "After: ";
         sorter.sort();
-
-        // sorter.displayResults();
     }
     catch (std::exception& e)
 	{

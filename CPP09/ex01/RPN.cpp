@@ -21,30 +21,6 @@ RPN &RPN::operator=(const RPN &copy)
 }
 
 // Class methods Reversed Polish Notation
-bool RPN::isOperator(char c) const
-{
-    return c == '+' || c == '-' || c == '*' || c == '/';
-}
-
-int RPN::performOperation(int a, int b, char op) const
-{
-    switch (op)
-    {
-        case '+':
-            return a + b;
-        case '-':
-            return b - a;
-        case '*':
-            return a * b;
-        case '/': 
-            if (a == 0)
-                throw DivisionByZero();
-            return b / a;
-        default:
-            throw InvalidInput();
-    }
-}
-
 int RPN::evaluate(const std::string& expression)
 {
     std::stringstream ss(expression);
@@ -74,6 +50,30 @@ int RPN::evaluate(const std::string& expression)
     if (_stack.size() != 1)
         throw InvalidInput();
     return _stack.top();
+}
+
+bool RPN::isOperator(char c) const
+{
+    return c == '+' || c == '-' || c == '*' || c == '/';
+}
+
+int RPN::performOperation(int a, int b, char op) const
+{
+    switch (op)
+    {
+        case '+':
+            return a + b;
+        case '-':
+            return b - a;
+        case '*':
+            return a * b;
+        case '/': 
+            if (a == 0)
+                throw DivisionByZero();
+            return b / a;
+        default:
+            throw InvalidInput();
+    }
 }
 
 // exceptions

@@ -27,7 +27,6 @@ class RPN
         // Class methods Reversed Polish Notation
         int evaluate(const std::string& expression);
 
-
         // exceptions
         class NotEnoughOperands : public std::exception
         {
