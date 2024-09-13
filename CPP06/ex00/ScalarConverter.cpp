@@ -1,4 +1,5 @@
 #include "ScalarConverter.hpp"
+#include <limits>
 
 /*
 ====================================== Constructors & Destructor =======================================
@@ -59,7 +60,7 @@ int	ScalarConverter::ifChar(std::string type)
 //					int checker
 int	ScalarConverter::ifInt(std::string type, double value, const char* end)
 {
-	if((value >= INT_MIN && value <= INT_MAX) && type.find('.') == std::string::npos && *end == '\0')
+	if((value >= std::numeric_limits<int>::min() && value <= std::numeric_limits<int>::max()) && type.find('.') == std::string::npos && *end == '\0')
 		return INT;
 	return ERROR;
 }

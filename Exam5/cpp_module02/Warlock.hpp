@@ -4,18 +4,18 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "ASpell.hpp"
+#include "SpellBook.hpp"
 
 class Warlock
 {
 	private:
 	std::string _name;
 	std::string _title;
-	std::map<std::string, ASpell*> spells;
+	//std::map<std::string, ASpell*> spells;
+	SpellBook sb;
 	Warlock();
 	Warlock(const Warlock& other);
 	Warlock& operator=(const Warlock& other);
-
 
 	public:
 	Warlock(std::string const& name, std::string const& title);
@@ -31,8 +31,6 @@ class Warlock
 	void	forgetSpell(std::string s);
 	void	launchSpell(std::string sn, ATarget const& tar);
 };
-
-
 
 
 #endif
