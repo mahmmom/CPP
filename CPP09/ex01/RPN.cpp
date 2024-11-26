@@ -49,6 +49,12 @@ int RPN::evaluate(const std::string& expression)
     }
     if (_stack.size() != 1)
         throw InvalidInput();
+    // check for overflow
+    if (_stack.top() < 0)
+        throw Overflow();
+    // how to know if the result is overflow? because I'm not allowed to use long long
+    if (_stack.top() > INT_MAX)
+        throw Overflow();
     return _stack.top();
 }
 
